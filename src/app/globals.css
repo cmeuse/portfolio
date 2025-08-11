@@ -45,13 +45,14 @@ body {
 
 /* Focus styles */
 .focus-visible {
-  @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-slate-900;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* blue-500 */
 }
 
 /* Text selection */
 ::selection {
-  background: rgba(14, 165, 233, 0.3);
-  color: white;
+  background: rgba(191, 219, 254, 0.6); /* blue-200 */
+  color: #1e293b; /* slate-800 */
 }
 
 /* Scroll snap */
@@ -158,27 +159,46 @@ body {
 
 /* Glass morphism */
 .glass {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.4); /* slate-400 */
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Mini player styles */
 .mini-player {
   backdrop-filter: blur(20px);
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(148, 163, 184, 0.1);
+  background: #f8fafc; /* slate-50 */
+  color: #1e293b; /* slate-800 */
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 /* Destination panel styles */
 .destination-panel {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  background: linear-gradient(to bottom, #f8fafc, #e0f2fe); /* slate-50 to sky-100 */
   backdrop-filter: blur(20px);
 }
 
 /* Case study sections */
 .case-overview {
   background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+}
+
+/* Light-sky utility classes for better contrast */
+@layer utilities {
+  .heading-hero { @apply text-slate-900/95 font-extrabold tracking-tight; }
+  .heading-lg   { @apply text-slate-900/90 font-bold; }
+  .subtle       { @apply text-slate-600; }
+  .body-text    { @apply text-slate-700; }
+
+  .card-surface { @apply bg-white border border-slate-200 shadow-sm; }
+  .chip         { @apply bg-white border border-slate-200 text-slate-700; }
+  .muted-chip   { @apply bg-slate-50 border border-slate-200 text-slate-700; }
+
+  .ui-pill      { @apply bg-white/95 border border-slate-200 text-slate-800 shadow; }
+  .icon-muted   { @apply text-slate-600; }
+
+  /* stop over-blur glass washing out text */
+  .glass-light  { @apply bg-white/80 backdrop-blur-md border border-slate-200; }
 }
 
 .metrics-grid {
@@ -194,16 +214,18 @@ body {
   gap: 2rem;
 }
 
-/* Tech stack chips */
+/* Tech stack chips - updated for light theme */
 .tech-chip {
-  background: rgba(148, 163, 184, 0.1);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #475569; /* slate-600 */
   transition: all 0.2s ease;
 }
 
 .tech-chip:hover {
-  background: rgba(14, 165, 233, 0.2);
+  background: rgba(14, 165, 233, 0.1);
   border-color: rgba(14, 165, 233, 0.3);
+  color: #0f172a; /* slate-900 */
   transform: translateY(-1px);
 }
 

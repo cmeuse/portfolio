@@ -66,7 +66,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body className="font-sans bg-slate-900 text-white overflow-x-hidden">
+      <body className="font-sans bg-gradient-to-b from-slate-50 via-sky-50 to-slate-100 text-slate-900 overflow-x-hidden">
         <div id="root">
           {children}
           <GlobeDock />

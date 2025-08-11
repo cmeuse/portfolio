@@ -7,15 +7,16 @@ import { useAppStore } from '@/store/useAppStore';
 export function Welcome() {
   const setScene = useAppStore((state) => state.setScene);
   const setTourMode = useAppStore((state) => state.setTourMode);
+  const dayNight = useAppStore((state) => state.dayNight);
 
   const handleStartJourney = () => {
-    setScene('globe');
+    setScene('globe-intro');
     document.getElementById('globe')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handlePlayTour = () => {
     setTourMode('auto');
-    setScene('globe');
+    setScene('globe-intro');
     document.getElementById('globe')?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -24,12 +25,16 @@ export function Welcome() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+    <div className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-colors duration-500 ${
+      dayNight === 'day' 
+        ? 'bg-gradient-to-b from-slate-50 via-sky-50 to-slate-50' 
+        : 'bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800'
+    }`}>
       {/* Background Animation */}
       <div className="absolute inset-0">
         {/* Floating clouds */}
         <motion.div
-          className="absolute top-20 left-10 w-32 h-16 bg-white/5 rounded-full blur-xl"
+          className="absolute top-20 left-10 w-32 h-16 bg-blue-200/30 rounded-full blur-xl"
           animate={{
             x: [0, 100, 0],
             y: [0, -20, 0],
@@ -41,7 +46,7 @@ export function Welcome() {
           }}
         />
         <motion.div
-          className="absolute top-40 right-20 w-24 h-12 bg-white/3 rounded-full blur-xl"
+          className="absolute top-40 right-20 w-24 h-12 bg-slate-200/40 rounded-full blur-xl"
           animate={{
             x: [0, -80, 0],
             y: [0, 15, 0],
@@ -55,7 +60,7 @@ export function Welcome() {
         
         {/* Moving plane silhouette */}
         <motion.div
-          className="absolute top-1/3 w-8 h-8 text-white/20"
+          className="absolute top-1/3 w-8 h-8 text-slate-400/60"
           animate={{
             x: [-100, 1200],
           }}
@@ -138,7 +143,7 @@ export function Welcome() {
 
         {/* Tagline */}
         <motion.p
-          className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto"
+          className="text-xl subtle mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
@@ -163,7 +168,7 @@ export function Welcome() {
 
           <button
             onClick={handlePlayTour}
-            className="group flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 backdrop-blur-sm border border-white/20 hover:border-white/30 focus-visible"
+            className="group flex items-center space-x-2 ui-pill px-8 py-4 rounded-full font-semibold transition-all duration-300 focus-visible"
           >
             <Play className="w-5 h-5" />
             <span>Play the Tour</span>
@@ -171,7 +176,7 @@ export function Welcome() {
 
           <button
             onClick={() => window.open('/resume.pdf', '_blank')}
-            className="group flex items-center space-x-2 text-slate-300 hover:text-white px-6 py-4 rounded-full font-medium transition-all duration-300 hover:bg-white/5 focus-visible"
+            className="group flex items-center space-x-2 card-surface text-slate-800 hover:bg-slate-100 px-6 py-4 rounded-full font-medium transition-all duration-300 focus-visible"
           >
             <FileDown className="w-5 h-5" />
             <span>View Resume</span>
@@ -182,7 +187,7 @@ export function Welcome() {
       {/* Scroll Indicator */}
       <motion.button
         onClick={handleScrollHint}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/60 hover:text-white transition-colors duration-300 focus-visible"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 icon-muted hover:text-slate-800 transition-colors duration-300 focus-visible"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
         aria-label="Scroll to begin journey"

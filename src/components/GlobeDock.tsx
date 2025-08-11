@@ -11,7 +11,7 @@ import type { CitySlug } from "@/types";
 const MiniGlobe3D = dynamic(() => import("./MiniGlobe3D"), { 
   ssr: false,
   loading: () => (
-    <div className="w-16 h-16 bg-slate-700/50 rounded-full animate-pulse" />
+    <div className="w-16 h-16 bg-slate-200 rounded-full animate-pulse" />
   )
 });
 
@@ -145,10 +145,10 @@ export default function GlobeDock() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="bg-slate-800/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-600/50 overflow-hidden"
+            className="glass-light rounded-2xl shadow-2xl overflow-hidden"
           >
             <div className="p-3">
-              <div className="text-slate-300 text-xs font-medium mb-3 px-1">Choose a destination</div>
+              <div className="subtle text-xs font-medium mb-3 px-1">Choose a destination</div>
               <div className="space-y-1">
                 {cityList.map((city) => (
                   <motion.button
@@ -159,7 +159,7 @@ export default function GlobeDock() {
                     className={`w-full text-left px-3 py-3 rounded-lg transition-all duration-200 flex items-center gap-3 ${
                       activeCity === city.slug
                         ? "bg-primary-600/90 text-white shadow-lg"
-                        : "hover:bg-slate-700/50 text-slate-200 hover:text-white"
+                        : "hover:bg-slate-100 body-text hover:text-slate-900"
                     }`}
                   >
                     <span className="text-lg">{city.flag}</span>
@@ -186,7 +186,7 @@ export default function GlobeDock() {
             initial={{ opacity: 0, x: 10, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 10, scale: 0.9 }}
-            className="bg-slate-800/90 backdrop-blur text-white px-3 py-2 rounded-lg text-sm font-medium shadow-lg border border-slate-600"
+            className="glass-light text-slate-800 px-3 py-2 rounded-lg text-sm font-medium shadow-lg"
           >
             {hoveredCity ? CITIES[hoveredCity]?.name : currentCityName}
           </motion.div>
@@ -201,10 +201,10 @@ export default function GlobeDock() {
           className="relative group cursor-pointer"
           onClick={handleGlobeClick}
         >
-          <div className={`bg-slate-800/70 backdrop-blur-md rounded-2xl p-3 shadow-2xl border transition-all duration-300 ${
+          <div className={`glass-light rounded-2xl p-3 shadow-2xl border transition-all duration-300 ${
             showCityList 
               ? "border-primary-500/70 shadow-primary-500/20" 
-              : "border-slate-600/50 hover:border-slate-500/70"
+              : "border-slate-300 hover:border-slate-400"
           }`}>
             {reducedMotion ? (
               <MiniGlobeFlat activeCity={activeCity} />
@@ -232,9 +232,9 @@ export default function GlobeDock() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="absolute -bottom-1 -right-1 w-4 h-4 bg-slate-700 rounded-full flex items-center justify-center border border-slate-600"
+              className="absolute -bottom-1 -right-1 w-4 h-4 card-surface rounded-full flex items-center justify-center"
             >
-              <span className="text-slate-300 text-xs">+</span>
+              <span className="heading-lg text-xs">+</span>
             </motion.div>
           )}
         </motion.div>
@@ -252,7 +252,7 @@ export default function GlobeDock() {
               document.getElementById('globe')?.scrollIntoView({ behavior: 'smooth' });
             }
           }}
-          className="bg-slate-800/90 backdrop-blur text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg border border-slate-600/50 hover:border-slate-500/70 transition-all duration-300"
+          className="ui-pill px-4 py-2 rounded-full text-sm font-medium shadow-lg transition-all duration-300"
           aria-label={showCityList ? "Close city list" : activeCity ? `Currently at ${currentCityName}. Click to return to globe view` : "Explore the map"}
         >
           {showCityList ? (

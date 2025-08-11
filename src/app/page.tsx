@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { useAppStore } from '@/store/useAppStore';
 import { Welcome } from '@/components/Welcome';
 import RouteLineSection from '@/components/RouteLineSection';
+import { TransitionParallax } from '@/components/TransitionParallax';
 import { GlobeSection } from '@/components/GlobeSection';
 import { DestinationPanels } from '@/components/DestinationPanels';
 import { MiniPlayer } from '@/components/MiniPlayer';

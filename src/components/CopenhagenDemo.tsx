@@ -139,10 +139,10 @@ export function CopenhagenDemo() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-display font-bold text-white mb-4">
+        <h1 className="text-4xl font-display heading-hero mb-4">
           Festival Playlist Generator
         </h1>
-        <p className="text-xl text-slate-300">
+        <p className="text-xl body-text">
           Upload a festival poster and I'll create a Spotify playlist for you
         </p>
       </div>
@@ -158,7 +158,7 @@ export function CopenhagenDemo() {
             className={`relative border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
               dragActive
                 ? 'border-primary-400 bg-primary-500/10'
-                : 'border-slate-600 hover:border-slate-500'
+                : 'border-slate-300 hover:border-slate-400'
             }`}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -171,14 +171,14 @@ export function CopenhagenDemo() {
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
             
-            <Upload className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-white mb-2">
+            <Upload className="w-12 h-12 icon-muted mx-auto mb-4" />
+            <h3 className="text-lg heading-lg mb-2">
               Drop a festival poster here
             </h3>
-            <p className="text-slate-400 mb-4">
+            <p className="body-text mb-4">
               or click to browse your files
             </p>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm subtle">
               Supports PNG, JPG, WebP up to 5MB
             </p>
 

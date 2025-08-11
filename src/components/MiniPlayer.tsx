@@ -35,10 +35,10 @@ export function MiniPlayer() {
 
             {/* Track Info */}
             <div className="flex-1 min-w-0">
-              <div className="text-white font-medium text-sm truncate">
+              <div className="heading-lg font-medium text-sm truncate">
                 {currentTrack.title}
               </div>
-              <div className="text-slate-400 text-xs truncate">
+              <div className="subtle text-xs truncate">
                 {currentTrack.artist}
               </div>
             </div>
@@ -47,7 +47,7 @@ export function MiniPlayer() {
             <div className="flex items-center space-x-2">
               <motion.button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="p-2 text-white hover:text-primary-400 transition-colors"
+                className="p-2 heading-lg hover:text-primary-600 transition-colors"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 disabled={!audioEnabled}
@@ -60,7 +60,7 @@ export function MiniPlayer() {
               </motion.button>
 
               <motion.button
-                className="p-2 text-white hover:text-primary-400 transition-colors"
+                className="p-2 heading-lg hover:text-primary-600 transition-colors"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 disabled={!audioEnabled}
@@ -70,7 +70,7 @@ export function MiniPlayer() {
 
               <motion.button
                 onClick={() => setAudioEnabled(!audioEnabled)}
-                className="p-2 text-white hover:text-primary-400 transition-colors"
+                className="p-2 heading-lg hover:text-primary-600 transition-colors"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -86,7 +86,7 @@ export function MiniPlayer() {
           {/* Progress Bar */}
           {audioEnabled && (
             <motion.div
-              className="mt-3 h-1 bg-white/10 rounded-full overflow-hidden"
+              className="mt-3 h-1 bg-slate-200 rounded-full overflow-hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}

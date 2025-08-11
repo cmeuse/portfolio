@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { allDestinations } from 'contentlayer/generated';
 import { useAppStore } from '@/store/useAppStore';
+import { TransitionParallax } from '@/components/TransitionParallax';
 import type { CitySlug, Metric, Link, Artifact } from '@/types';
 
 function DestinationPanel({ destination }: { destination: typeof allDestinations[0] }) {
@@ -81,7 +82,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
           {/* Content */}
           <div>
                          <motion.h2
-               className="text-5xl font-display font-bold text-white mb-6"
+               className="text-5xl font-display heading-hero mb-6"
                initial={{ opacity: 0, x: -30 }}
                animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -30 }}
                transition={{ delay: 0.2, duration: 0.6 }}
@@ -90,7 +91,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
              </motion.h2>
              
              <motion.p
-               className="text-xl text-slate-300 mb-2"
+               className="text-xl heading-lg mb-2"
                initial={{ opacity: 0, x: -30 }}
                animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -30 }}
                transition={{ delay: 0.4, duration: 0.6 }}
@@ -99,7 +100,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
              </motion.p>
 
              <motion.p
-               className="text-lg text-slate-400 mb-8"
+               className="text-lg subtle mb-8"
                initial={{ opacity: 0, x: -30 }}
                animate={{ opacity: inView ? 1 : 0, x: inView ? 0 : -30 }}
                transition={{ delay: 0.5, duration: 0.6 }}
@@ -117,11 +118,11 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                {destination.metrics && (
                  <div className="grid grid-cols-3 gap-4 mb-6">
                    {(destination.metrics as Metric[]).map((metric, index) => (
-                     <div key={index} className="text-center p-4 glass rounded-lg">
-                       <div className="text-3xl font-bold text-primary-400">
+                     <div key={index} className="text-center p-4 card-surface rounded-lg">
+                       <div className="text-3xl heading-lg">
                          {metric.prefix || ''}{metric.value}{metric.suffix || ''}
                        </div>
-                       <div className="text-sm text-slate-400">{metric.label}</div>
+                       <div className="text-sm subtle">{metric.label}</div>
                      </div>
                    ))}
                  </div>
@@ -130,10 +131,10 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                {/* Tech Stack */}
                {destination.stack && (
                  <div className="mb-6">
-                   <h4 className="text-lg font-semibold text-white mb-3">Tech Stack</h4>
+                   <h4 className="text-lg heading-lg mb-3">Tech Stack</h4>
                    <div className="flex flex-wrap gap-2">
                      {(destination.stack as string[]).map((tech) => (
-                       <span key={tech} className="tech-chip px-3 py-1 rounded-full text-sm">
+                       <span key={tech} className="chip px-3 py-1 rounded-full text-sm">
                          {tech}
                        </span>
                      ))}
@@ -143,7 +144,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
 
                              {/* Overview */}
               <div className="mb-6">
-                <p className="text-slate-300 leading-relaxed">
+                <p className="body-text leading-relaxed">
                   {destination.overview}
                 </p>
               </div>
@@ -151,12 +152,12 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
               {/* Build Notes */}
               {destination.buildNotes && (destination.buildNotes as string[]).length > 0 && (
                 <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-white mb-3">Technical Implementation</h4>
+                  <h4 className="text-lg heading-lg mb-3">Technical Implementation</h4>
                   <div className="space-y-2">
                     {(destination.buildNotes as string[]).map((note, index) => (
                       <div key={index} className="flex items-start gap-3">
                         <div className="w-1.5 h-1.5 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                        <p className="text-slate-300 text-sm">{note}</p>
+                        <p className="body-text text-sm">{note}</p>
                       </div>
                     ))}
                   </div>
@@ -166,7 +167,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
               {/* Artifacts */}
               {destination.artifacts && (destination.artifacts as Artifact[]).length > 0 && (
                 <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-white mb-3">Project Artifacts</h4>
+                  <h4 className="text-lg heading-lg mb-3">Project Artifacts</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {(destination.artifacts as Artifact[]).map((artifact, index) => (
                       <a
@@ -184,16 +185,16 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                           {artifact.type === 'link' && <span className="text-sm">🔗</span>}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-white font-medium text-sm group-hover:text-primary-300 transition-colors">
+                          <p className="heading-lg font-medium text-sm group-hover:text-sky-700 transition-colors">
                             {artifact.title}
                           </p>
                           {artifact.description && (
-                            <p className="text-slate-400 text-xs mt-1 truncate">
+                            <p className="subtle text-xs mt-1 truncate">
                               {artifact.description}
                             </p>
                           )}
                         </div>
-                        <div className="text-slate-400 group-hover:text-white transition-colors">
+                        <div className="subtle group-hover:text-slate-800 transition-colors">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
@@ -207,7 +208,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
               {/* Links */}
               {destination.links && (destination.links as Link[]).length > 0 && (
                 <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-white mb-3">Project Links</h4>
+                  <h4 className="text-lg heading-lg mb-3">Project Links</h4>
                   <div className="flex flex-wrap gap-3">
                     {(destination.links as Link[]).map((link, index) => (
                       <a
@@ -215,7 +216,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-all duration-300 border border-white/20 hover:border-white/30 text-sm group"
+                        className="inline-flex items-center gap-2 px-4 py-2 ui-pill rounded-full font-medium transition-all duration-300 text-sm group hover:bg-slate-100"
                       >
                         {link.type === 'github' && <span className="text-sm">🔗</span>}
                         {link.type === 'demo' && <span className="text-sm">🚀</span>}
@@ -266,8 +267,8 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                     <div className={`w-20 h-20 ${(visuals as any).bgColor || 'bg-white/10'} rounded-2xl mx-auto mb-4 flex items-center justify-center backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300`}>
                       <span className="text-3xl">{(visuals as any).emoji}</span>
                     </div>
-                    <h3 className="text-white font-semibold text-lg mb-2">{visuals.title}</h3>
-                    <p className="text-slate-300 text-sm px-4">Project showcase image coming soon</p>
+                    <h3 className="heading-lg font-semibold text-lg mb-2">{visuals.title}</h3>
+                    <p className="body-text text-sm px-4">Project showcase image coming soon</p>
                   </div>
                   
                   {/* Bottom Gradient Overlay */}
@@ -277,7 +278,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
               
               {/* Corner Badge */}
               <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 border border-white/20 z-30">
-                <span className="text-white text-xs font-medium">{destination.city}</span>
+                <span className="heading-lg text-xs font-medium">{destination.city}</span>
               </div>
             </div>
           </motion.div>
@@ -298,8 +299,14 @@ export function DestinationPanels() {
 
   return (
     <div className="relative">
-      {sortedDestinations.map((destination) => (
-        <DestinationPanel key={destination.slug} destination={destination} />
+      {sortedDestinations.map((destination, index) => (
+        <React.Fragment key={destination.slug}>
+          <DestinationPanel destination={destination} />
+          {/* Add plane transition between each destination (except after the last one) */}
+          {index < sortedDestinations.length - 1 && (
+            <TransitionParallax />
+          )}
+        </React.Fragment>
       ))}
     </div>
   );

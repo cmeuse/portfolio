@@ -37,7 +37,7 @@ export function GlobeSection() {
   };
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-b from-slate-900 to-slate-800">
+    <div className="relative w-full h-full bg-gradient-to-b from-slate-50 via-sky-50 to-slate-50">
       {/* Globe */}
       <Globe
         activeCity={activeCity}
@@ -57,11 +57,11 @@ export function GlobeSection() {
           {/* Settings Toggle */}
           <motion.button
             onClick={() => setShowControls(!showControls)}
-            className="p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm border border-white/20 transition-all duration-300 focus-visible"
+            className="p-3 ui-pill rounded-full transition-all duration-300 focus-visible"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Settings className="w-5 h-5 text-white" />
+            <Settings className="w-5 h-5 heading-lg" />
           </motion.button>
 
           {/* Expanded Controls */}
@@ -76,7 +76,7 @@ export function GlobeSection() {
                 {/* Day/Night Toggle */}
                 <motion.button
                   onClick={() => setDayNight(dayNight === 'day' ? 'night' : 'day')}
-                  className="p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm border border-white/20 transition-all duration-300 focus-visible"
+                  className="p-3 ui-pill rounded-full transition-all duration-300 focus-visible"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   aria-label={`Switch to ${dayNight === 'day' ? 'night' : 'day'} mode`}
@@ -91,25 +91,25 @@ export function GlobeSection() {
                 {/* Audio Toggle */}
                 <motion.button
                   onClick={() => setAudioEnabled(!audioEnabled)}
-                  className="p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm border border-white/20 transition-all duration-300 focus-visible"
+                  className="p-3 ui-pill rounded-full transition-all duration-300 focus-visible"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   aria-label={`${audioEnabled ? 'Mute' : 'Unmute'} audio`}
                 >
                   {audioEnabled ? (
-                    <Volume2 className="w-5 h-5 text-white" />
+                    <Volume2 className="w-5 h-5 heading-lg" />
                   ) : (
-                    <VolumeX className="w-5 h-5 text-white/60" />
+                    <VolumeX className="w-5 h-5 subtle" />
                   )}
                 </motion.button>
 
                 {/* Tour Toggle */}
                 <motion.button
                   onClick={toggleTour}
-                  className={`p-3 rounded-full backdrop-blur-sm border transition-all duration-300 focus-visible ${
+                  className={`p-3 rounded-full border transition-all duration-300 focus-visible ${
                     tourMode === 'auto'
                       ? 'bg-primary-600 hover:bg-primary-700 border-primary-500'
-                      : 'bg-white/10 hover:bg-white/20 border-white/20'
+                      : 'ui-pill'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -118,7 +118,7 @@ export function GlobeSection() {
                   {tourMode === 'auto' ? (
                     <Pause className="w-5 h-5 text-white" />
                   ) : (
-                    <Play className="w-5 h-5 text-white" />
+                    <Play className="w-5 h-5 heading-lg" />
                   )}
                 </motion.button>
               </motion.div>
@@ -135,13 +135,13 @@ export function GlobeSection() {
               exit={{ opacity: 0, x: -50 }}
               className="absolute left-6 top-1/2 transform -translate-y-1/2 pointer-events-auto"
             >
-              <div className="glass p-6 rounded-lg max-w-sm">
-                <h3 className="text-2xl font-display font-bold text-white mb-2">
+              <div className="glass-light p-6 rounded-lg max-w-sm">
+                <h3 className="text-2xl font-display heading-hero mb-2">
                   {activeCity.split('-').map(word => 
                     word.charAt(0).toUpperCase() + word.slice(1)
                   ).join(' ')}
                 </h3>
-                <p className="text-slate-300 mb-4">
+                <p className="body-text mb-4">
                   Explore this destination to see the case study
                 </p>
                 <motion.button
@@ -169,7 +169,7 @@ export function GlobeSection() {
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   activeCity === citySlug
                     ? 'bg-primary-500 scale-125'
-                    : 'bg-white/30 hover:bg-white/50'
+                    : 'bg-slate-400 hover:bg-slate-500'
                 }`}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
@@ -186,10 +186,10 @@ export function GlobeSection() {
           transition={{ delay: 1 }}
           className="absolute bottom-6 right-6 text-right pointer-events-none"
         >
-          <p className="text-white/60 text-sm mb-1">
+          <p className="subtle text-sm mb-1">
             Click pins to explore destinations
           </p>
-          <p className="text-white/40 text-xs">
+          <p className="icon-muted text-xs">
             Drag to rotate • Pinch to zoom • Middle-click to zoom
           </p>
         </motion.div>
