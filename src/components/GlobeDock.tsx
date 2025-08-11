@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { CITIES } from "@/utils/coordinates";
+import { allDestinations } from 'contentlayer/generated';
 import type { CitySlug } from "@/types";
 
 // Dynamically import the 3D globe to avoid SSR issues
@@ -114,6 +115,49 @@ export default function GlobeDock() {
     setShowCityList(!showCityList);
   };
 
+  // Get destination data and visuals for city list
+  const getDestinationData = (slug: string) => {
+    const destination = allDestinations.find(dest => dest.slug === slug);
+    const visuals = {
+      'new-york': { 
+        image: '/assets/spotify-logo.png', 
+        bgColor: 'bg-black/40'
+      },
+      'washington-dc': { 
+        image: '/assets/georgetown-logo.png', 
+        bgColor: 'bg-blue-900/40'
+      },
+      'mountain-view': { 
+        image: '/assets/google.png', 
+        bgColor: 'bg-red-900/40' 
+      },
+      'los-angeles': { 
+        image: '/assets/tagger.png', 
+        bgColor: 'bg-purple-900/40'
+      },
+      'tokyo': { 
+        image: '/assets/shibuya.jpg', 
+        bgColor: 'bg-orange-900/40'
+      },
+      'copenhagen': { 
+        image: '/assets/cope.png', 
+        bgColor: 'bg-purple-900'
+      },
+      'toronto': { 
+        image: '/assets/airfairness.png',
+        bgColor: 'bg-blue-900/40'
+      },
+    };
+    
+    return {
+      destination,
+      visuals: visuals[slug as keyof typeof visuals] || { 
+        image: '', 
+        bgColor: 'bg-primary-900/40' 
+      }
+    };
+  };
+
   const cityList = [
     { slug: 'new-york' as CitySlug, name: 'New York', flag: '🇺🇸' },
     { slug: 'washington-dc' as CitySlug, name: 'Washington DC', flag: '🇺🇸' },
@@ -156,56 +200,98 @@ export default function GlobeDock() {
                 dayNight === 'day' ? 'text-slate-600' : 'text-slate-400'
               }`}>Choose a destination</div>
               <div className="space-y-1">
-                {cityList.map((city) => (
-                  <motion.button
-                    key={city.slug}
-                    whileHover={{ scale: 1.02, x: 4 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleCitySelect(city.slug)}
-                    className={`w-full text-left px-3 py-3 rounded-lg transition-all duration-200 flex items-center gap-3 ${
-                      activeCity === city.slug
-                        ? "bg-primary-600/90 text-white shadow-lg"
-                        : dayNight === 'day'
-                          ? "hover:bg-slate-100 text-slate-700 hover:text-slate-900"
-                          : "hover:bg-slate-700 text-slate-300 hover:text-slate-100"
-                    }`}
-                  >
-                    <span className="text-lg">{city.flag}</span>
-                    <span className="font-medium text-sm">{city.name}</span>
-                    {activeCity === city.slug && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="ml-auto w-2 h-2 bg-white rounded-full"
-                      />
-                    )}
-                  </motion.button>
-                ))}
+                {cityList.map((city) => {
+                  const cityData = getDestinationData(city.slug);
+                  return (
+                    <motion.button
+                      key={city.slug}
+                      whileHover={{ scale: 1.02, x: 4 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleCitySelect(city.slug)}
+                      className={`w-full text-left px-3 py-3 rounded-lg transition-all duration-200 flex items-center gap-3 ${
+                        activeCity === city.slug
+                          ? "bg-primary-600/90 text-white shadow-lg"
+                          : dayNight === 'day'
+                            ? "hover:bg-slate-100 text-slate-700 hover:text-slate-900"
+                            : "hover:bg-slate-700 text-slate-300 hover:text-slate-100"
+                      }`}
+                    >
+                      {/* Destination Image */}
+                      {cityData.visuals.image && (
+                        <div className="relative w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                          <img 
+                            src={cityData.visuals.image}
+                            alt={cityData.destination?.headline || city.name}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className={`absolute inset-0 ${cityData.visuals.bgColor}`} />
+                        </div>
+                      )}
+                      
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm">{cityData.destination?.headline || city.name}</div>
+                        {cityData.destination?.role && (
+                          <div className={`text-xs transition-colors duration-500 ${
+                            activeCity === city.slug
+                              ? 'text-white/80'
+                              : dayNight === 'day'
+                                ? 'text-slate-500'
+                                : 'text-slate-400'
+                          }`}>
+                            {cityData.destination.role}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {activeCity === city.slug && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="ml-auto w-2 h-2 bg-white rounded-full flex-shrink-0"
+                        />
+                      )}
+                    </motion.button>
+                  );
+                })}
               </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* City name tooltip */}
-      <AnimatePresence>
-        {(hoveredCity || (isExpanded && activeCity && !showCityList)) && (
-          <motion.div
-            initial={{ opacity: 0, x: 10, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: 10, scale: 0.9 }}
-            className={`px-3 py-2 rounded-lg text-sm font-medium shadow-lg transition-colors duration-500 ${
-              dayNight === 'day' 
-                ? 'bg-white/80 backdrop-blur-md border border-slate-200 text-slate-800' 
-                : 'bg-slate-800/80 backdrop-blur-md border border-slate-700 text-slate-200'
-            }`}
-          >
-            {hoveredCity ? CITIES[hoveredCity]?.name : currentCityName}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <div className="flex items-end gap-3">
+        {/* Control button - positioned to the left of mini globe */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => {
+            if (showCityList) {
+              setShowCityList(false);
+            } else if (activeCity) {
+              setCity(null);
+            } else {
+              document.getElementById('globe')?.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+          className={`px-4 py-2 rounded-full text-sm font-medium shadow-lg transition-all duration-300 ${
+            dayNight === 'day' 
+              ? 'bg-white/95 border border-slate-200 text-slate-800 shadow' 
+              : 'bg-slate-800/95 border border-slate-700 text-slate-200 shadow'
+          }`}
+          aria-label={showCityList ? "Close city list" : activeCity ? `Currently at ${currentCityName}. Click to return to globe view` : "Explore the map"}
+        >
+          {showCityList ? (
+            "Close"
+          ) : activeCity ? (
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" />
+              {currentCityName}
+            </span>
+          ) : (
+            "Explore"
+          )}
+        </motion.button>
+
         {/* Mini Globe Container */}
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -263,37 +349,23 @@ export default function GlobeDock() {
           )}
         </motion.div>
 
-        {/* Control button */}
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            if (showCityList) {
-              setShowCityList(false);
-            } else if (activeCity) {
-              setCity(null);
-            } else {
-              document.getElementById('globe')?.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
-          className={`px-4 py-2 rounded-full text-sm font-medium shadow-lg transition-all duration-300 ${
-            dayNight === 'day' 
-              ? 'bg-white/95 border border-slate-200 text-slate-800 shadow' 
-              : 'bg-slate-800/95 border border-slate-700 text-slate-200 shadow'
-          }`}
-          aria-label={showCityList ? "Close city list" : activeCity ? `Currently at ${currentCityName}. Click to return to globe view` : "Explore the map"}
-        >
-          {showCityList ? (
-            "Close"
-          ) : activeCity ? (
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" />
-              {currentCityName}
-            </span>
-          ) : (
-            "Explore"
+        {/* City name tooltip - positioned to the right of mini globe */}
+        <AnimatePresence>
+          {(hoveredCity || (isExpanded && activeCity && !showCityList)) && (
+            <motion.div
+              initial={{ opacity: 0, x: 10, scale: 0.9 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 10, scale: 0.9 }}
+              className={`px-3 py-2 rounded-lg text-sm font-medium shadow-lg transition-colors duration-500 ${
+                dayNight === 'day' 
+                  ? 'bg-white/80 backdrop-blur-md border border-slate-200 text-slate-800' 
+                  : 'bg-slate-800/80 backdrop-blur-md border border-slate-700 text-slate-200'
+              }`}
+            >
+              {hoveredCity ? CITIES[hoveredCity]?.name : currentCityName}
+            </motion.div>
           )}
-        </motion.button>
+        </AnimatePresence>
       </div>
     </motion.div>
   );
