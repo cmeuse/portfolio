@@ -20,7 +20,10 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Portfolio | Building playful AI + music products that travel the world',
   description: 'A music and travel-themed portfolio showcasing AI + music products across global destinations.',
   keywords: ['portfolio', 'AI', 'music', 'travel', 'software engineer', 'Spotify', 'machine learning'],
@@ -28,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Portfolio | AI + Music Products',
     description: 'Building playful AI + music products that travel the world',
-    url: process.env.NEXT_PUBLIC_SITE_URL,
+    url: siteUrl,
     siteName: 'Portfolio',
     images: [
       {
@@ -58,7 +61,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
       <head>
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL} />
+        <link rel="canonical" href={siteUrl} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" href="/favicon.ico" />
