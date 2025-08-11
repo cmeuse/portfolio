@@ -6,6 +6,7 @@ import { useAppStore } from '@/store/useAppStore';
 import { Welcome } from '@/components/Welcome';
 import RouteLineSection from '@/components/RouteLineSection';
 import { GlobeSection } from '@/components/GlobeSection';
+import { TransitionParallax } from '@/components/TransitionParallax';
 import { DestinationPanels } from '@/components/DestinationPanels';
 import { MiniPlayer } from '@/components/MiniPlayer';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
@@ -56,6 +57,9 @@ export default function HomePage() {
         {/* Create trailing space so sticky globe can release */}
         <div className="h-[50vh]" />
       </section>
+
+      {/* Parallax Transition between Globe and Destinations */}
+      <TransitionParallax />
 
       {/* Destinations Section - Scroll-snap panels */}
       <section id="destinations" className="relative min-h-[500vh]">

@@ -2,6 +2,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { CITIES } from "@/utils/coordinates";
+import { useAppStore } from "@/store/useAppStore";
 import type { CitySlug } from "@/types";
 
 const Globe = dynamic(() => import("react-globe.gl"), { ssr: false });
@@ -9,15 +10,32 @@ const Globe = dynamic(() => import("react-globe.gl"), { ssr: false });
 export default function RealisticGlobe() {
   const ref = useRef<any>(null);
   const [hoveredCity, setHoveredCity] = useState<string | null>(null);
+  const dayNight = useAppStore((state) => state.dayNight);
+  const globeSelectedCity = useAppStore((state) => state.globeSelectedCity);
+  const setGlobeSelectedCity = useAppStore((state) => state.setGlobeSelectedCity);
 
-  // Convert cities data to points for the globe
+  // Convert cities data to points for the globe with custom icons
+  const getCityIcon = (citySlug: string) => {
+    const icons = {
+      'new-york': '🗽', // Statue of Liberty
+      'washington-dc': '🏛️', // Capitol building
+      'mountain-view': '🌉', // Golden Gate Bridge
+      'los-angeles': '🎬', // Clapperboard for Hollywood
+      'tokyo': '🇯🇵', // Japan flag
+      'copenhagen': '🇩🇰', // Denmark flag
+      'toronto': '🇨🇦', // Canada flag
+    };
+    return icons[citySlug as keyof typeof icons] || '📍';
+  };
+
   const cityPoints = Object.values(CITIES).map(city => ({
     lat: city.coordinates.lat,
     lng: city.coordinates.lng,
     name: city.name,
     slug: city.slug,
-    size: 0.5,
-    color: '#f59e0b' // amber color for pins
+    icon: getCityIcon(city.slug),
+    size: 1.2,
+    color: dayNight === 'day' ? '#f59e0b' : '#fbbf24'
   }));
 
   useEffect(() => {
@@ -33,21 +51,21 @@ export default function RealisticGlobe() {
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.4;
     
-    // Disable scroll wheel zoom and enable pinch zoom
-    controls.enableZoom = true;
+    // CRITICAL: Allow page scrolling by disabling zoom
+    controls.enableZoom = false;
     controls.enablePan = false;
     
-    // For touch devices: enable pinch-to-zoom
-    controls.touches = {
-      ONE: 2, // TOUCH.ROTATE
-      TWO: 1  // TOUCH.DOLLY_PAN (pinch zoom)
-    };
-    
-    // Disable mouse wheel zoom
+    // Allow rotation but don't capture all mouse events
     controls.mouseButtons = {
       LEFT: 0, // MOUSE.ROTATE  
-      MIDDLE: 1, // MOUSE.DOLLY
-      RIGHT: 0   // MOUSE.ROTATE
+      MIDDLE: -1, // Disable middle mouse
+      RIGHT: -1   // Disable right mouse
+    };
+    
+    // For touch: only allow rotation, not zoom
+    controls.touches = {
+      ONE: 2, // TOUCH.ROTATE
+      TWO: -1 // Disable pinch zoom to allow page scroll
     };
     
   }, []);
@@ -57,6 +75,10 @@ export default function RealisticGlobe() {
     if (ref.current) {
       ref.current.controls().autoRotate = !point; // Pause rotation on hover
     }
+    
+    // Show preview for hovered city, or fall back to clicked city
+    const cityToShow = point ? point.slug as CitySlug : globeSelectedCity;
+    setGlobeSelectedCity(cityToShow);
   };
 
   const handleCityClick = (point: any) => {
@@ -68,71 +90,110 @@ export default function RealisticGlobe() {
         altitude: 1.5 
       }, 1000);
       
+      // Set selected city to make preview stick
+      setGlobeSelectedCity(point.slug as CitySlug);
+      
       console.log(`Clicked on ${point.name}`);
-      // You can add navigation logic here
     }
   };
 
   return (
-    <div style={{ width: "100%", height: "80vh" }}>
-      <Globe
+    <div style={{ 
+      width: "100%", 
+      height: "80vh",
+      position: "relative"
+    }}>
+      {/* Globe container - centered 50% */}
+      <div style={{
+        position: "absolute",
+        left: "25%",
+        top: "0",
+        width: "50%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      }}>
+        <div style={{
+          width: "100%",
+          height: "100%",
+          position: "relative"
+        }}>
+          <Globe
         ref={ref}
         // Main earth texture
         globeImageUrl="/textures/earth_albedo_8k.jpg"
         
+        // Reduce interaction interference
+        rendererConfig={{ 
+          antialias: true,
+          alpha: true
+        }}
+        
         // Atmosphere
         showAtmosphere
         atmosphereAltitude={0.18}
-        atmosphereColor="#4a90e2"
+        atmosphereColor={dayNight === 'day' ? "#0ea5e9" : "#60a5fa"}
         
-        // Background - space gradient instead of black
-        backgroundColor="rgba(10, 25, 47, 0.95)"
+        // Background transparent to show container gradient
+        backgroundColor={'rgba(0,0,0,0)'}
         
-        // City points
+        // Subtle background points for better interaction
         pointsData={cityPoints}
         pointLat="lat"
         pointLng="lng"
-        pointColor={(point: any) => point === hoveredCity ? '#ef4444' : point.color}
-        pointAltitude={0.01}
-        pointRadius={(point: any) => point === hoveredCity ? 0.8 : 0.5}
-        pointResolution={16}
-        
-        // City labels  
-        pointLabel={(point: any) => `
-          <div style="
-            background: rgba(0,0,0,0.8); 
-            padding: 8px 12px; 
-            border-radius: 6px; 
-            color: white; 
-            font-family: system-ui;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-          ">
-            ${point.name}
-          </div>
-        `}
-        
-        // Interaction handlers
+        pointColor={() => 'rgba(255,255,255,0.1)'}
+        pointAltitude={0.015}
+        pointRadius={(point: any) => point.name === hoveredCity ? 3 : 2}
+        pointResolution={12}
         onPointHover={handleCityHover}
         onPointClick={handleCityClick}
+        
+        // Custom labels as emoji pins (more stable positioning)
+        labelsData={cityPoints}
+        labelLat="lat"
+        labelLng="lng"
+        labelAltitude={0.025}
+        labelSize={(point: any) => point.name === hoveredCity ? 3.5 : 3}
+        labelDotRadius={() => 0}
+        labelColor={() => 'transparent'}
+        labelText={(point: any) => point.icon}
+        labelResolution={3}
+        labelIncludeDot={false}
+        
+        // Globe click handler
+        onGlobeClick={() => {
+          // Clear selection when clicking on empty space
+          setGlobeSelectedCity(null);
+        }}
       />
       
-      {/* Instructions overlay */}
-      <div style={{
-        position: 'absolute',
-        bottom: '20px',
-        right: '20px',
-        background: 'rgba(0,0,0,0.7)',
-        color: 'white',
-        padding: '12px 16px',
-        borderRadius: '8px',
-        fontSize: '12px',
-        fontFamily: 'system-ui'
-      }}>
-        <div>🖱️ Drag to rotate</div>
-        <div>🤏 Pinch to zoom</div>
-        <div>📍 Click pins to explore</div>
+              {/* Instructions overlay - positioned within globe container */}
+        <div style={{
+          position: 'absolute',
+          bottom: '20px',
+          right: '20px',
+          background: dayNight === 'day' 
+            ? 'rgba(255,255,255,0.9)' 
+            : 'rgba(15,23,42,0.9)',
+          color: dayNight === 'day' ? '#1e293b' : '#f1f5f9',
+          padding: '14px 18px',
+          borderRadius: '10px',
+          fontSize: '13px',
+          fontFamily: 'system-ui',
+          fontWeight: '500',
+          boxShadow: dayNight === 'day' 
+            ? '0 4px 20px rgba(0,0,0,0.1)' 
+            : '0 4px 20px rgba(0,0,0,0.3)',
+          border: dayNight === 'day' 
+            ? '1px solid rgba(0,0,0,0.1)' 
+            : '1px solid rgba(59,130,246,0.2)',
+          pointerEvents: 'none' // Don't block page interactions
+        }}>
+          <div>🖱️ Drag to rotate</div>
+          <div>📍 Click pins to explore</div>
+        </div>
+        </div>
       </div>
     </div>
   );

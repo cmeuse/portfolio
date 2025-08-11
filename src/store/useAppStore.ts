@@ -7,6 +7,7 @@ export const useAppStore = create<AppState>()(
     // Initial State
     activeScene: 'welcome',
     activeCity: null,
+    globeSelectedCity: null,
     tourMode: 'manual',
     dayNight: 'day',
     audioEnabled: false,
@@ -26,6 +27,10 @@ export const useAppStore = create<AppState>()(
       if (city && get().activeScene !== 'destinations') {
         set({ activeScene: 'destinations' });
       }
+    },
+
+    setGlobeSelectedCity: (city: CitySlug | null) => {
+      set({ globeSelectedCity: city });
     },
 
     setTourMode: (mode: TourMode) => {

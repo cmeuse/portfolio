@@ -82,6 +82,7 @@ export interface AppState {
   // Scene Management
   activeScene: SceneType;
   activeCity: CitySlug | null;
+  globeSelectedCity: CitySlug | null; // Separate state for globe selections
   tourMode: TourMode;
   
   // Visual Settings
@@ -96,6 +97,7 @@ export interface AppState {
   // Actions
   setScene: (scene: SceneType) => void;
   setCity: (city: CitySlug | null) => void;
+  setGlobeSelectedCity: (city: CitySlug | null) => void;
   setTourMode: (mode: TourMode) => void;
   setDayNight: (mode: DayNight) => void;
   setAudioEnabled: (enabled: boolean) => void;
