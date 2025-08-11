@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Play, Pause, Volume2, VolumeX, Settings } from 'lucide-react';
 import RealisticGlobe from './Globe';
 import { useAppStore } from '@/store/useAppStore';
+import { allDestinations } from 'contentlayer/generated';
 import type { CitySlug } from '@/types';
 
 export function GlobeSection() {
@@ -22,49 +23,46 @@ export function GlobeSection() {
 
   const [showControls, setShowControls] = useState(false);
 
-  // Get destination visuals for city preview
-  const getDestinationVisuals = (slug: string) => {
+  // Get destination data and visuals for city preview
+  const getDestinationData = (slug: string) => {
+    const destination = allDestinations.find(dest => dest.slug === slug);
     const visuals = {
       'new-york': { 
         image: '/assets/spotify-logo.png', 
-        title: 'Spotify Notebook Sharing',
         bgColor: 'bg-black/40'
       },
       'washington-dc': { 
         image: '/assets/georgetown-logo.png', 
-        title: 'Georgetown Developer Community',
         bgColor: 'bg-blue-900/40'
       },
       'mountain-view': { 
         image: '/assets/google.png', 
-        title: 'Google Solutions Challenge Winner', 
         bgColor: 'bg-red-900/40' 
       },
       'los-angeles': { 
         image: '/assets/tagger.png', 
-        title: 'Tagger Media (Sprout Social)',
         bgColor: 'bg-purple-900/40'
       },
       'tokyo': { 
         image: '/assets/shibuya.jpg', 
-        title: 'A Vinyl Bar in Shibuya',
         bgColor: 'bg-orange-900/40'
       },
       'copenhagen': { 
         image: '/assets/cope.png', 
-        title: 'AI Art Generation Research', 
         bgColor: 'bg-purple-900'
       },
       'toronto': { 
         image: '/assets/airfairness.png',
-        title: 'FlightorFight.ai Acquisition',
         bgColor: 'bg-blue-900/40'
       },
     };
-    return visuals[slug as keyof typeof visuals] || { 
-      image: '', 
-      title: 'Tech Innovation', 
-      bgColor: 'bg-primary-900/40' 
+    
+    return {
+      destination,
+      visuals: visuals[slug as keyof typeof visuals] || { 
+        image: '', 
+        bgColor: 'bg-primary-900/40' 
+      }
     };
   };
 
@@ -190,7 +188,7 @@ export function GlobeSection() {
                   : 'bg-slate-800/90 backdrop-blur-md border border-slate-700'
               }`}>
                 {/* Destination Image */}
-                {getDestinationVisuals(globeSelectedCity).image && (
+                {getDestinationData(globeSelectedCity).visuals.image && (
                   <div className="relative h-48 overflow-hidden flex items-center justify-center">
                     {/* Background gradient */}
                     <div className={`absolute inset-0 bg-gradient-to-br ${
@@ -200,8 +198,8 @@ export function GlobeSection() {
                     }`} />
                     
                     <img 
-                      src={getDestinationVisuals(globeSelectedCity).image}
-                      alt={getDestinationVisuals(globeSelectedCity).title}
+                      src={getDestinationData(globeSelectedCity).visuals.image}
+                      alt={getDestinationData(globeSelectedCity).destination?.headline || 'Destination'}
                       className="relative z-10 max-w-full max-h-full object-contain drop-shadow-lg"
                     />
                     
@@ -215,14 +213,18 @@ export function GlobeSection() {
                   <h3 className={`text-xl font-display mb-2 transition-colors duration-500 ${
                     dayNight === 'day' ? 'text-slate-900' : 'text-white'
                   }`}>
-                    {globeSelectedCity.split('-').map(word => 
-                      word.charAt(0).toUpperCase() + word.slice(1)
-                    ).join(' ')}
+                    {getDestinationData(globeSelectedCity).destination?.headline || 
+                      globeSelectedCity.split('-').map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                      ).join(' ')
+                    }
                   </h3>
                   <p className={`text-sm mb-4 transition-colors duration-500 ${
                     dayNight === 'day' ? 'text-slate-600' : 'text-slate-300'
                   }`}>
-                    Explore this destination to see the case study
+                    {getDestinationData(globeSelectedCity).destination?.role || 
+                      'Explore this destination to see associated project / experience'
+                    }
                   </p>
                   <motion.button
                     onClick={() => {

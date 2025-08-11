@@ -138,28 +138,46 @@ export default function RealisticGlobe() {
         // Background transparent to show container gradient
         backgroundColor={'rgba(0,0,0,0)'}
         
-        // Subtle background points for better interaction
-        pointsData={cityPoints}
-        pointLat="lat"
-        pointLng="lng"
-        pointColor={() => 'rgba(255,255,255,0.1)'}
-        pointAltitude={0.015}
-        pointRadius={(point: any) => point.name === hoveredCity ? 3 : 2}
-        pointResolution={12}
-        onPointHover={handleCityHover}
-        onPointClick={handleCityClick}
+        // Disable any default labels/points
+        labelsData={[]}
+        pointsData={[]}
         
-        // Custom labels as emoji pins (more stable positioning)
-        labelsData={cityPoints}
-        labelLat="lat"
-        labelLng="lng"
-        labelAltitude={0.025}
-        labelSize={(point: any) => point.name === hoveredCity ? 3.5 : 3}
-        labelDotRadius={() => 0}
-        labelColor={() => 'transparent'}
-        labelText={(point: any) => point.icon}
-        labelResolution={3}
-        labelIncludeDot={false}
+        // HTML elements for emoji pins with proper font support
+        htmlElementsData={cityPoints}
+        htmlLat="lat"
+        htmlLng="lng"
+        htmlAltitude={0.01}
+        htmlElement={(point: any) => {
+          const el = document.createElement('div');
+          el.innerHTML = point.icon;
+          const isHovered = point.name === hoveredCity;
+          
+          // Set font properties that support emoji
+          el.style.fontFamily = 'Apple Color Emoji, Segoe UI Emoji, Noto Color Emoji, Arial, sans-serif';
+          el.style.fontSize = isHovered ? '28px' : '22px';
+          el.style.transition = 'all 0.3s ease';
+          el.style.cursor = 'pointer';
+          el.style.userSelect = 'none';
+          el.style.pointerEvents = 'auto';
+          el.style.textAlign = 'center';
+          el.style.lineHeight = '1';
+          el.style.filter = isHovered ? 'drop-shadow(0 0 8px rgba(255,255,255,0.8))' : 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))';
+          el.style.transform = isHovered ? 'scale(1.1)' : 'scale(1)';
+          el.style.zIndex = isHovered ? '1000' : '999';
+          
+          // Add hover tooltip
+          el.title = point.name;
+          
+          // Add event listeners
+          el.addEventListener('mouseenter', () => handleCityHover(point));
+          el.addEventListener('mouseleave', () => handleCityHover(null));
+          el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            handleCityClick(point);
+          });
+          
+          return el;
+        }}
         
         // Globe click handler
         onGlobeClick={() => {
