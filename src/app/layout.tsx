@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import GlobeDock from '@/components/GlobeDock';
+import RootLayoutClient from './RootLayoutClient';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -66,13 +67,11 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <body className="font-sans bg-gradient-to-b from-slate-50 via-sky-50 to-slate-100 text-slate-900 overflow-x-hidden">
-        <div id="root">
-          {children}
-          <GlobeDock />
-        </div>
+      <RootLayoutClient>
+        {children}
+        <GlobeDock />
         {process.env.NEXT_PUBLIC_ANALYTICS === 'vercel' && <Analytics />}
-      </body>
+      </RootLayoutClient>
     </html>
   );
 }

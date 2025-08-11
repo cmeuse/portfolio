@@ -2,9 +2,11 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useAppStore } from '@/store/useAppStore';
 
 export function TransitionParallax() {
   const ref = useRef<HTMLDivElement>(null);
+  const dayNight = useAppStore((state) => state.dayNight);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start end', 'end start']
@@ -26,7 +28,11 @@ export function TransitionParallax() {
 
 
   return (
-    <div ref={ref} className="relative h-[40vh] overflow-hidden bg-gradient-to-b from-sky-50 via-slate-50 to-sky-50">
+    <div ref={ref} className={`relative h-[50vh] overflow-hidden transition-colors duration-500 ${
+      dayNight === 'day' 
+        ? 'bg-gradient-to-b from-slate-50 via-sky-100 to-slate-50'
+        : 'bg-gradient-to-b from-slate-800 via-blue-800 to-slate-800'
+    }`}>
       {/* Background Layers */}
       
       {/* Clouds - Slowest */}
@@ -34,9 +40,15 @@ export function TransitionParallax() {
         style={{ y: yClouds, opacity }}
         className="absolute inset-0 pointer-events-none"
       >
-        <div className="absolute top-8 left-1/4 w-20 h-10 bg-slate-200/60 rounded-full blur-xl" />
-        <div className="absolute top-16 right-1/3 w-16 h-8 bg-blue-200/50 rounded-full blur-lg" />
-        <div className="absolute top-24 left-1/2 w-14 h-7 bg-slate-300/40 rounded-full blur-md" />
+        <div className={`absolute top-8 left-1/4 w-20 h-10 rounded-full blur-xl transition-colors duration-500 ${
+          dayNight === 'day' ? 'bg-sky-200/40' : 'bg-blue-600/30'
+        }`} />
+        <div className={`absolute top-16 right-1/3 w-16 h-8 rounded-full blur-lg transition-colors duration-500 ${
+          dayNight === 'day' ? 'bg-slate-200/30' : 'bg-slate-600/25'
+        }`} />
+        <div className={`absolute top-24 left-1/2 w-14 h-7 rounded-full blur-md transition-colors duration-500 ${
+          dayNight === 'day' ? 'bg-sky-300/35' : 'bg-blue-700/25'
+        }`} />
       </motion.div>
 
       {/* Flight Path - Medium */}
@@ -52,7 +64,7 @@ export function TransitionParallax() {
           {/* Main flight path */}
           <motion.path
             d="M0,150 Q200,120 400,150 T800,150 T1600,150"
-            stroke="rgba(59, 130, 246, 0.4)"
+            stroke={dayNight === 'day' ? 'rgba(59, 130, 246, 0.4)' : 'rgba(147, 197, 253, 0.6)'}
             strokeWidth="6"
             strokeDasharray="12,6"
             fill="none"
@@ -62,7 +74,7 @@ export function TransitionParallax() {
           {/* Vapor trail behind plane */}
           <motion.path
             d="M0,150 Q200,120 400,150 T800,150 T1600,150"
-            stroke="rgba(59, 130, 246, 0.1)"
+            stroke={dayNight === 'day' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(147, 197, 253, 0.2)'}
             strokeWidth="16"
             strokeDasharray="30,15"
             fill="none"
@@ -115,8 +127,19 @@ export function TransitionParallax() {
       </motion.div>
 
 
-      {/* Gradient Overlay for smooth transition */}
-      <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-sky-50 to-transparent pointer-events-none" />
+      {/* Extended Top Gradient Overlay */}
+      <div className={`absolute top-0 left-0 w-full h-40 pointer-events-none transition-colors duration-500 ${
+        dayNight === 'day' 
+          ? 'bg-gradient-to-b from-slate-50 via-slate-50/80 to-transparent'
+          : 'bg-gradient-to-b from-slate-800 via-slate-800/80 to-transparent'
+      }`} />
+      
+      {/* Extended Bottom Gradient Overlay */}
+      <div className={`absolute bottom-0 left-0 w-full h-40 pointer-events-none transition-colors duration-500 ${
+        dayNight === 'day' 
+          ? 'bg-gradient-to-t from-slate-50 via-slate-50/80 to-transparent'
+          : 'bg-gradient-to-t from-slate-800 via-slate-800/80 to-transparent'
+      }`} />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ChevronDown, Play, MapPin, FileDown } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
+import { DayNightToggle } from './DayNightToggle';
 
 export function Welcome() {
   const setScene = useAppStore((state) => state.setScene);
@@ -30,11 +31,23 @@ export function Welcome() {
         ? 'bg-gradient-to-b from-slate-50 via-sky-50 to-slate-50' 
         : 'bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800'
     }`}>
+      {/* Day/Night Toggle */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+        className="absolute top-6 right-6 z-20"
+      >
+        <DayNightToggle />
+      </motion.div>
+
       {/* Background Animation */}
       <div className="absolute inset-0">
         {/* Floating clouds */}
         <motion.div
-          className="absolute top-20 left-10 w-32 h-16 bg-blue-200/30 rounded-full blur-xl"
+          className={`absolute top-20 left-10 w-32 h-16 rounded-full blur-xl transition-colors duration-500 ${
+            dayNight === 'day' ? 'bg-blue-200/30' : 'bg-purple-600/20'
+          }`}
           animate={{
             x: [0, 100, 0],
             y: [0, -20, 0],
@@ -46,7 +59,9 @@ export function Welcome() {
           }}
         />
         <motion.div
-          className="absolute top-40 right-20 w-24 h-12 bg-slate-200/40 rounded-full blur-xl"
+          className={`absolute top-40 right-20 w-24 h-12 rounded-full blur-xl transition-colors duration-500 ${
+            dayNight === 'day' ? 'bg-slate-200/40' : 'bg-indigo-600/30'
+          }`}
           animate={{
             x: [0, -80, 0],
             y: [0, 15, 0],
@@ -60,7 +75,9 @@ export function Welcome() {
         
         {/* Moving plane silhouette */}
         <motion.div
-          className="absolute top-1/3 w-8 h-8 text-slate-400/60"
+          className={`absolute top-1/3 w-8 h-8 transition-colors duration-500 ${
+            dayNight === 'day' ? 'text-slate-400/60' : 'text-slate-300/60'
+          }`}
           animate={{
             x: [-100, 1200],
           }}
@@ -143,7 +160,9 @@ export function Welcome() {
 
         {/* Tagline */}
         <motion.p
-          className="text-xl subtle mb-12 max-w-2xl mx-auto"
+          className={`text-xl mb-12 max-w-2xl mx-auto transition-colors duration-500 ${
+            dayNight === 'day' ? 'text-slate-600' : 'text-slate-300'
+          }`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
@@ -187,7 +206,11 @@ export function Welcome() {
       {/* Scroll Indicator */}
       <motion.button
         onClick={handleScrollHint}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 icon-muted hover:text-slate-800 transition-colors duration-300 focus-visible"
+        className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 transition-colors duration-300 focus-visible ${
+          dayNight === 'day' 
+            ? 'text-slate-600 hover:text-slate-800' 
+            : 'text-slate-400 hover:text-slate-200'
+        }`}
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
         aria-label="Scroll to begin journey"

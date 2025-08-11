@@ -6,7 +6,7 @@ import { Play, Pause, SkipForward, Volume2, VolumeX } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 
 export function MiniPlayer() {
-  const { activeCity, audioEnabled, setAudioEnabled } = useAppStore();
+  const { activeCity, audioEnabled, dayNight, setAudioEnabled } = useAppStore();
   const [isPlaying, setIsPlaying] = useState(false);
   
   // Only show mini player when there's an active city
@@ -26,7 +26,11 @@ export function MiniPlayer() {
         exit={{ y: 100, opacity: 0 }}
         className="fixed bottom-6 left-6 right-6 z-50 pointer-events-auto"
       >
-        <div className="mini-player rounded-full px-6 py-4 shadow-2xl max-w-md mx-auto">
+        <div className={`rounded-full px-6 py-4 shadow-2xl max-w-md mx-auto transition-colors duration-500 ${
+          dayNight === 'day' 
+            ? 'bg-slate-50 text-slate-800 border border-slate-200/30' 
+            : 'bg-slate-800 text-slate-200 border border-slate-700/30'
+        }`}>
           <div className="flex items-center space-x-4">
             {/* Album Art */}
             <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-purple-500 rounded-full flex-shrink-0 flex items-center justify-center">
@@ -35,10 +39,14 @@ export function MiniPlayer() {
 
             {/* Track Info */}
             <div className="flex-1 min-w-0">
-              <div className="heading-lg font-medium text-sm truncate">
+              <div className={`font-medium text-sm truncate transition-colors duration-500 ${
+                dayNight === 'day' ? 'text-slate-900/90' : 'text-slate-200'
+              }`}>
                 {currentTrack.title}
               </div>
-              <div className="subtle text-xs truncate">
+              <div className={`text-xs truncate transition-colors duration-500 ${
+                dayNight === 'day' ? 'text-slate-600' : 'text-slate-400'
+              }`}>
                 {currentTrack.artist}
               </div>
             </div>
@@ -47,7 +55,11 @@ export function MiniPlayer() {
             <div className="flex items-center space-x-2">
               <motion.button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="p-2 heading-lg hover:text-primary-600 transition-colors"
+                className={`p-2 transition-colors duration-300 ${
+                  dayNight === 'day' 
+                    ? 'text-slate-900/90 hover:text-primary-600' 
+                    : 'text-slate-200 hover:text-primary-400'
+                }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 disabled={!audioEnabled}
@@ -60,7 +72,11 @@ export function MiniPlayer() {
               </motion.button>
 
               <motion.button
-                className="p-2 heading-lg hover:text-primary-600 transition-colors"
+                className={`p-2 transition-colors duration-300 ${
+                  dayNight === 'day' 
+                    ? 'text-slate-900/90 hover:text-primary-600' 
+                    : 'text-slate-200 hover:text-primary-400'
+                }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 disabled={!audioEnabled}
@@ -70,7 +86,11 @@ export function MiniPlayer() {
 
               <motion.button
                 onClick={() => setAudioEnabled(!audioEnabled)}
-                className="p-2 heading-lg hover:text-primary-600 transition-colors"
+                className={`p-2 transition-colors duration-300 ${
+                  dayNight === 'day' 
+                    ? 'text-slate-900/90 hover:text-primary-600' 
+                    : 'text-slate-200 hover:text-primary-400'
+                }`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -86,7 +106,9 @@ export function MiniPlayer() {
           {/* Progress Bar */}
           {audioEnabled && (
             <motion.div
-              className="mt-3 h-1 bg-slate-200 rounded-full overflow-hidden"
+              className={`mt-3 h-1 rounded-full overflow-hidden transition-colors duration-500 ${
+                dayNight === 'day' ? 'bg-slate-200' : 'bg-slate-700'
+              }`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}

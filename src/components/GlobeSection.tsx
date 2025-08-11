@@ -37,7 +37,11 @@ export function GlobeSection() {
   };
 
   return (
-    <div className="relative w-full h-full bg-gradient-to-b from-slate-50 via-sky-50 to-slate-50">
+    <div className={`relative w-full h-full transition-colors duration-500 ${
+      dayNight === 'day' 
+        ? 'bg-gradient-to-b from-slate-50 via-sky-50 to-slate-50' 
+        : 'bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800'
+    }`}>
       {/* Globe */}
       <Globe
         activeCity={activeCity}

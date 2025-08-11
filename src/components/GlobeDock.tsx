@@ -74,7 +74,7 @@ function MiniGlobeFlat({
 }
 
 export default function GlobeDock() {
-  const { activeCity, setCity } = useAppStore();
+  const { activeCity, dayNight, setCity } = useAppStore();
   const [reducedMotion, setReducedMotion] = useState(false);
   const [hoveredCity, setHoveredCity] = useState<CitySlug | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -145,10 +145,16 @@ export default function GlobeDock() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="glass-light rounded-2xl shadow-2xl overflow-hidden"
+            className={`rounded-2xl shadow-2xl overflow-hidden transition-colors duration-500 ${
+              dayNight === 'day' 
+                ? 'bg-white/80 backdrop-blur-md border border-slate-200' 
+                : 'bg-slate-800/80 backdrop-blur-md border border-slate-700'
+            }`}
           >
             <div className="p-3">
-              <div className="subtle text-xs font-medium mb-3 px-1">Choose a destination</div>
+              <div className={`text-xs font-medium mb-3 px-1 transition-colors duration-500 ${
+                dayNight === 'day' ? 'text-slate-600' : 'text-slate-400'
+              }`}>Choose a destination</div>
               <div className="space-y-1">
                 {cityList.map((city) => (
                   <motion.button
@@ -159,7 +165,9 @@ export default function GlobeDock() {
                     className={`w-full text-left px-3 py-3 rounded-lg transition-all duration-200 flex items-center gap-3 ${
                       activeCity === city.slug
                         ? "bg-primary-600/90 text-white shadow-lg"
-                        : "hover:bg-slate-100 body-text hover:text-slate-900"
+                        : dayNight === 'day'
+                          ? "hover:bg-slate-100 text-slate-700 hover:text-slate-900"
+                          : "hover:bg-slate-700 text-slate-300 hover:text-slate-100"
                     }`}
                   >
                     <span className="text-lg">{city.flag}</span>
@@ -186,7 +194,11 @@ export default function GlobeDock() {
             initial={{ opacity: 0, x: 10, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 10, scale: 0.9 }}
-            className="glass-light text-slate-800 px-3 py-2 rounded-lg text-sm font-medium shadow-lg"
+            className={`px-3 py-2 rounded-lg text-sm font-medium shadow-lg transition-colors duration-500 ${
+              dayNight === 'day' 
+                ? 'bg-white/80 backdrop-blur-md border border-slate-200 text-slate-800' 
+                : 'bg-slate-800/80 backdrop-blur-md border border-slate-700 text-slate-200'
+            }`}
           >
             {hoveredCity ? CITIES[hoveredCity]?.name : currentCityName}
           </motion.div>
@@ -201,10 +213,16 @@ export default function GlobeDock() {
           className="relative group cursor-pointer"
           onClick={handleGlobeClick}
         >
-          <div className={`glass-light rounded-2xl p-3 shadow-2xl border transition-all duration-300 ${
+          <div className={`rounded-2xl p-3 shadow-2xl border transition-all duration-300 ${
+            dayNight === 'day' 
+              ? 'bg-white/80 backdrop-blur-md' 
+              : 'bg-slate-800/80 backdrop-blur-md'
+          } ${
             showCityList 
               ? "border-primary-500/70 shadow-primary-500/20" 
-              : "border-slate-300 hover:border-slate-400"
+              : dayNight === 'day'
+                ? "border-slate-300 hover:border-slate-400"
+                : "border-slate-700 hover:border-slate-600"
           }`}>
             {reducedMotion ? (
               <MiniGlobeFlat activeCity={activeCity} />
@@ -232,9 +250,15 @@ export default function GlobeDock() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="absolute -bottom-1 -right-1 w-4 h-4 card-surface rounded-full flex items-center justify-center"
+              className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center transition-colors duration-500 ${
+                dayNight === 'day' 
+                  ? 'bg-white border border-slate-200 shadow-sm' 
+                  : 'bg-slate-800 border border-slate-700'
+              }`}
             >
-              <span className="heading-lg text-xs">+</span>
+              <span className={`text-xs transition-colors duration-500 ${
+                dayNight === 'day' ? 'text-slate-900/90' : 'text-slate-200'
+              }`}>+</span>
             </motion.div>
           )}
         </motion.div>
@@ -252,7 +276,11 @@ export default function GlobeDock() {
               document.getElementById('globe')?.scrollIntoView({ behavior: 'smooth' });
             }
           }}
-          className="ui-pill px-4 py-2 rounded-full text-sm font-medium shadow-lg transition-all duration-300"
+          className={`px-4 py-2 rounded-full text-sm font-medium shadow-lg transition-all duration-300 ${
+            dayNight === 'day' 
+              ? 'bg-white/95 border border-slate-200 text-slate-800 shadow' 
+              : 'bg-slate-800/95 border border-slate-700 text-slate-200 shadow'
+          }`}
           aria-label={showCityList ? "Close city list" : activeCity ? `Currently at ${currentCityName}. Click to return to globe view` : "Explore the map"}
         >
           {showCityList ? (

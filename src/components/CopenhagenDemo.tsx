@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, Music, Loader2, Play, ExternalLink, AlertCircle } from 'lucide-react';
+import { useAppStore } from '@/store/useAppStore';
 
 interface Artist {
   name: string;
@@ -25,6 +26,7 @@ export function CopenhagenDemo() {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [dragActive, setDragActive] = useState(false);
+  const dayNight = useAppStore((state) => state.dayNight);
 
   const handleFile = useCallback(async (file: File) => {
     try {
@@ -139,10 +141,14 @@ export function CopenhagenDemo() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-display heading-hero mb-4">
+        <h1 className={`text-4xl font-display mb-4 transition-colors duration-500 ${
+          dayNight === 'day' ? 'text-slate-900/95' : 'text-slate-100'
+        }`}>
           Festival Playlist Generator
         </h1>
-        <p className="text-xl body-text">
+        <p className={`text-xl transition-colors duration-500 ${
+          dayNight === 'day' ? 'text-slate-700' : 'text-slate-300'
+        }`}>
           Upload a festival poster and I'll create a Spotify playlist for you
         </p>
       </div>
@@ -155,10 +161,12 @@ export function CopenhagenDemo() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className={`relative border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
+            className={`relative border-2 border-dashed rounded-lg p-12 text-center transition-colors duration-500 ${
               dragActive
                 ? 'border-primary-400 bg-primary-500/10'
-                : 'border-slate-300 hover:border-slate-400'
+                : dayNight === 'day' 
+                  ? 'border-slate-300 hover:border-slate-400'
+                  : 'border-slate-600 hover:border-slate-500'
             }`}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -171,14 +179,22 @@ export function CopenhagenDemo() {
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
             
-            <Upload className="w-12 h-12 icon-muted mx-auto mb-4" />
-            <h3 className="text-lg heading-lg mb-2">
+            <Upload className={`w-12 h-12 mx-auto mb-4 transition-colors duration-500 ${
+              dayNight === 'day' ? 'text-slate-600' : 'text-slate-400'
+            }`} />
+            <h3 className={`text-lg mb-2 transition-colors duration-500 ${
+              dayNight === 'day' ? 'text-slate-900/90' : 'text-slate-200'
+            }`}>
               Drop a festival poster here
             </h3>
-            <p className="body-text mb-4">
+            <p className={`mb-4 transition-colors duration-500 ${
+              dayNight === 'day' ? 'text-slate-700' : 'text-slate-300'
+            }`}>
               or click to browse your files
             </p>
-            <p className="text-sm subtle">
+            <p className={`text-sm transition-colors duration-500 ${
+              dayNight === 'day' ? 'text-slate-600' : 'text-slate-400'
+            }`}>
               Supports PNG, JPG, WebP up to 5MB
             </p>
 

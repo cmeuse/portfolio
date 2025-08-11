@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
 import { Mail, Phone, MapPin, Github, Linkedin, Globe, ArrowRight } from "lucide-react";
+import { useAppStore } from '@/store/useAppStore';
 
 
 
@@ -218,9 +219,14 @@ function SuitcaseWithTag({
 
 export default function RouteLineSection() {
   const ref = useRef<HTMLDivElement>(null);
+  const dayNight = useAppStore((state) => state.dayNight);
 
   return (
-    <div ref={ref} className="relative min-h-[90vh] bg-gradient-to-b from-slate-50 via-sky-50 to-slate-50">
+    <div ref={ref} className={`relative min-h-[90vh] transition-colors duration-500 ${
+      dayNight === 'day' 
+        ? 'bg-gradient-to-b from-slate-50 via-sky-50 to-slate-50' 
+        : 'bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800'
+    }`}>
       <div className="max-w-7xl mx-auto px-6 pt-24 pb-0">
         <div className="flex justify-center mb-12">
           <SuitcaseWithTag

@@ -533,6 +533,7 @@ function GlobeScene({ activeCity, dayNight, tourMode, onCityHover, onCitySelect 
 // Main Globe Component
 export function Globe(props: GlobeProps) {
   const setGlobeReady = useAppStore((state) => state.setGlobeReady);
+  const dayNight = useAppStore((state) => state.dayNight);
 
   useEffect(() => {
     setGlobeReady(true);
@@ -543,7 +544,11 @@ export function Globe(props: GlobeProps) {
     <div className="w-full h-full globe-container">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 50 }}
-        style={{ background: 'linear-gradient(to bottom, #f8fafc, #e0f2fe, #f8fafc)' }}
+        style={{ 
+          background: dayNight === 'day' 
+            ? 'linear-gradient(to bottom, #f8fafc, #f0f9ff, #f8fafc)' 
+            : 'linear-gradient(to bottom, #0f172a, #1e3a8a, #1e293b)'
+        }}
       >
         <GlobeScene {...props} />
       </Canvas>
