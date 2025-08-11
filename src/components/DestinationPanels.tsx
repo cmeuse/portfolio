@@ -20,10 +20,29 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
         title: 'Spotify Notebook Sharing',
         bgColor: 'bg-black/40'
       },
-      'washington-dc': { type: 'emoji', emoji: '🏛️', gradient: 'from-red-500/20 to-blue-500/20', title: 'Government Innovation' },
-      'los-angeles': { type: 'emoji', emoji: '🎬', gradient: 'from-yellow-500/20 to-pink-500/20', title: 'Creative Technology' },
-      'tokyo': { type: 'emoji', emoji: '🗼', gradient: 'from-pink-500/20 to-purple-500/20', title: 'AI Research Hub' },
-      'copenhagen': { type: 'emoji', emoji: '🎭', gradient: 'from-green-500/20 to-blue-500/20', title: 'Nordic Innovation' },
+      'washington-dc': { 
+        type: 'image', 
+        image: '/assets/georgetown-logo.png', 
+        gradient: 'from-blue-500/20 to-gray-500/20', 
+        title: 'Georgetown Developer Community',
+        bgColor: 'bg-blue-900/40'
+      },
+      'mountain-view': { type: 'image', image: '/assets/google.png', gradient: 'from-red-500/20 to-yellow-500/20', title: 'Google Solutions Challenge Winner', bgColor: 'bg-red-900/40' },
+      'los-angeles': { 
+        type: 'image', 
+        image: '/assets/tagger.png', 
+        gradient: 'from-purple-500/20 to-blue-500/20', 
+        title: 'Tagger Media (Sprout Social)',
+        bgColor: 'bg-purple-900/40'
+      },
+      'tokyo': { 
+        type: 'image', 
+        image: '/assets/shibuya.jpg', 
+        gradient: 'from-orange-500/20 to-red-500/20', 
+        title: 'A Vinyl Bar in Shibuya',
+        bgColor: 'bg-orange-900/40'
+      },
+      'copenhagen': { type: 'image', image: '/assets/cope.png', gradient: 'from-purple-500/20 to-pink-500/20', title: 'AI Art Generation Research', bgColor: 'bg-purple-900' },
     };
     return visuals[slug as keyof typeof visuals] || { type: 'emoji', emoji: '🚀', gradient: 'from-primary-500/20 to-purple-500/20', title: 'Tech Innovation' };
   };
@@ -43,6 +62,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
 
   return (
     <motion.div
+      id={`destination-${destination.slug}`}
       ref={ref}
       className="min-h-screen flex items-center justify-center scroll-snap-start destination-panel"
       initial={{ opacity: 0, y: 50 }}
@@ -219,7 +239,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
               {visuals.type === 'image' ? (
                 /* Clean Image - No Text Overlay */
                 <img 
-                  src={visuals.image} 
+                  src={(visuals as any).image} 
                   alt={visuals.title}
                   className="absolute inset-0 w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-300"
                 />
@@ -236,8 +256,8 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                   
                   {/* Main Content */}
                   <div className="text-center z-10">
-                    <div className={`w-20 h-20 ${visuals.bgColor || 'bg-white/10'} rounded-2xl mx-auto mb-4 flex items-center justify-center backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300`}>
-                      <span className="text-3xl">{visuals.emoji}</span>
+                    <div className={`w-20 h-20 ${(visuals as any).bgColor || 'bg-white/10'} rounded-2xl mx-auto mb-4 flex items-center justify-center backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300`}>
+                      <span className="text-3xl">{(visuals as any).emoji}</span>
                     </div>
                     <h3 className="text-white font-semibold text-lg mb-2">{visuals.title}</h3>
                     <p className="text-slate-300 text-sm px-4">Project showcase image coming soon</p>
@@ -265,7 +285,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
 export function DestinationPanels() {
   // Sort destinations in the desired order
   const sortedDestinations = allDestinations.sort((a, b) => {
-    const order = ['new-york', 'washington-dc', 'los-angeles', 'tokyo', 'copenhagen'];
+    const order = ['new-york', 'washington-dc', 'mountain-view', 'los-angeles', 'tokyo', 'copenhagen'];
     return order.indexOf(a.slug) - order.indexOf(b.slug);
   });
 

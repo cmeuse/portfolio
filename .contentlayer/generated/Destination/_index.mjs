@@ -2,8 +2,9 @@
 
 import destinations__copenhagenMdx from './destinations__copenhagen.mdx.json' assert { type: 'json' }
 import destinations__losAngelesMdx from './destinations__los-angeles.mdx.json' assert { type: 'json' }
+import destinations__mountainViewMdx from './destinations__mountain-view.mdx.json' assert { type: 'json' }
 import destinations__newYorkMdx from './destinations__new-york.mdx.json' assert { type: 'json' }
 import destinations__tokyoMdx from './destinations__tokyo.mdx.json' assert { type: 'json' }
 import destinations__washingtonDcMdx from './destinations__washington-dc.mdx.json' assert { type: 'json' }
 
-export const allDestinations = [destinations__copenhagenMdx, destinations__losAngelesMdx, destinations__newYorkMdx, destinations__tokyoMdx, destinations__washingtonDcMdx]
+export const allDestinations = [destinations__copenhagenMdx, destinations__losAngelesMdx, destinations__mountainViewMdx, destinations__newYorkMdx, destinations__tokyoMdx, destinations__washingtonDcMdx]

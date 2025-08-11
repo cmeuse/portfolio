@@ -190,7 +190,7 @@ export function GlobeSection() {
             Click pins to explore destinations
           </p>
           <p className="text-white/40 text-xs">
-            Drag to rotate • Scroll to zoom
+            Drag to rotate • Pinch to zoom • Middle-click to zoom
           </p>
         </motion.div>
       </div>

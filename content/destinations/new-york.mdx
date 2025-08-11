@@ -2,7 +2,7 @@
 slug: new-york
 city: New York
 country: USA
-headline: Notebook sharing at Spotify
+headline: Spotify Intern
 role: Backend Engineering Intern
 timeframe: Summer 2024
 soundtrackPlaylistId: 37i9dQZF1DX0XUsuxWHRQd
@@ -24,65 +24,3 @@ buildNotes:
   - "Real-time collaboration using WebSocket connections"
 
 ---
-
-# Building the Future of Data Collaboration
-
-At Spotify, data scientists and analysts work with complex notebooks that power everything from recommendation algorithms to business intelligence. However, sharing these notebooks was a painful process that involved multiple steps, version conflicts, and required deep Git knowledge.
-
-## The Challenge
-
-The existing workflow was cumbersome:
-1. Export notebook to file
-2. Upload to internal Git repository  
-3. Create pull request
-4. Wait for code review
-5. Navigate permissions
-6. Share access link
-7. Recipient downloads file
-8. Import into their environment
-9. Resolve environment conflicts
-
-This 9-step process was creating significant friction, especially for non-technical stakeholders who needed to access and understand the data insights but lacked Git expertise.
-
-## The Solution
-
-I designed and built a one-click sharing system that:
-
-- **Eliminated Git complexity** with direct notebook URLs
-- **Preserved execution state** so recipients see outputs immediately
-- **Implemented granular permissions** for security compliance
-- **Added real-time collaboration** for live editing sessions
-
-## Technical Architecture
-
-### Backend Infrastructure
-Built on Spotify's microservices architecture with:
-- **Node.js API gateway** for request routing and authentication
-- **Java services** for core business logic and notebook processing
-- **PostgreSQL** for metadata and permissions storage
-- **Redis** for session management and real-time features
-
-### Frontend Experience
-- **React + TypeScript** for type-safe component development
-- **WebSocket integration** for real-time collaboration
-- **Progressive enhancement** to work without JavaScript
-
-### DevOps & Reliability
-- **Docker containerization** for consistent deployments
-- **Kubernetes orchestration** for auto-scaling
-- **Comprehensive monitoring** with Datadog and custom metrics
-
-## Impact Metrics
-
-The results exceeded expectations:
-- **2,000+ internal users** adopted the feature within 10 weeks
-- **8,000+ lines of production code** delivered from RFC to launch
-- **89% reduction** in sharing friction (from 9 steps to 1 click)
-- **Measurable productivity gains** in cross-organization collaboration
-
-## Key Learnings
-
-1. **User research is crucial** - spent significant time with data scientists to understand pain points
-2. **Security can't be an afterthought** - built permissions system from day one
-3. **Real-time features require careful state management** - learned about conflict resolution
-4. **Monitoring is essential** - comprehensive observability helped maintain reliability

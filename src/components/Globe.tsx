@@ -214,6 +214,20 @@ function CameraController({ activeCity, tourMode }: { activeCity: CitySlug | nul
 // Main Globe Scene
 function GlobeScene({ activeCity, dayNight, tourMode, onCityHover, onCitySelect }: GlobeProps) {
   const [hoveredCity, setHoveredCity] = useState<CitySlug | null>(null);
+  const controlsRef = useRef<any>(null);
+
+  // Disable scroll wheel zoom to allow page scrolling
+  useEffect(() => {
+    if (controlsRef.current) {
+      const canvas = controlsRef.current.domElement;
+      const preventWheelZoom = (e: WheelEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+      };
+      canvas.addEventListener('wheel', preventWheelZoom, { passive: false });
+      return () => canvas.removeEventListener('wheel', preventWheelZoom);
+    }
+  }, [controlsRef.current]);
 
   const handleCityHover = (citySlug: CitySlug, isHovered: boolean) => {
     setHoveredCity(isHovered ? citySlug : null);
@@ -255,6 +269,7 @@ function GlobeScene({ activeCity, dayNight, tourMode, onCityHover, onCitySelect 
 
       {/* Orbit Controls (disabled during auto tour) */}
       <OrbitControls
+        ref={controlsRef}
         enabled={tourMode === 'manual' && !useAppStore.getState().cameraFlying}
         enableZoom={true}
         enablePan={false}
@@ -262,6 +277,15 @@ function GlobeScene({ activeCity, dayNight, tourMode, onCityHover, onCitySelect 
         maxDistance={8}
         enableDamping
         dampingFactor={0.05}
+        mouseButtons={{
+          LEFT: THREE.MOUSE.ROTATE,
+          MIDDLE: THREE.MOUSE.DOLLY, // Keep middle mouse for zoom
+          RIGHT: THREE.MOUSE.ROTATE,
+        }}
+        touches={{
+          ONE: THREE.TOUCH.ROTATE,
+          TWO: THREE.TOUCH.DOLLY_PAN, // Keep pinch-to-zoom on touch
+        }}
       />
     </>
   );

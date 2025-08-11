@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
+import GlobeDock from '@/components/GlobeDock';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -68,6 +69,7 @@ export default function RootLayout({
       <body className="font-sans bg-slate-900 text-white overflow-x-hidden">
         <div id="root">
           {children}
+          <GlobeDock />
         </div>
         {process.env.NEXT_PUBLIC_ANALYTICS === 'vercel' && <Analytics />}
       </body>

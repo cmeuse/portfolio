@@ -1,6 +1,6 @@
-export type CitySlug = 'new-york' | 'tokyo' | 'washington-dc' | 'los-angeles' | 'copenhagen';
+export type CitySlug = 'new-york' | 'tokyo' | 'washington-dc' | 'los-angeles' | 'copenhagen' | 'mountain-view';
 
-export type SceneType = 'welcome' | 'transition' | 'globe' | 'destinations';
+export type SceneType = 'welcome' | 'globe-intro' | 'route' | 'destinations';
 
 export type TourMode = 'manual' | 'auto';
 
@@ -28,7 +28,7 @@ export interface Metric {
 export interface Artifact {
   title: string;
   url: string;
-  type: 'video' | 'image' | 'link' | 'document';
+  type: 'video' | 'image' | 'link' | 'document' | 'demo';
   description?: string;
 }
 
