@@ -217,6 +217,13 @@ export function Welcome() {
       >
         <ChevronDown className="w-8 h-8" />
       </motion.button>
+      
+      {/* Bottom gradient overlay for smooth transition to next section */}
+      <div className={`absolute bottom-0 left-0 right-0 h-24 pointer-events-none transition-colors duration-500 ${
+        dayNight === 'day'
+          ? 'bg-gradient-to-b from-transparent via-slate-50/30 to-slate-50'
+          : 'bg-gradient-to-b from-transparent via-slate-800/30 to-slate-800'
+      }`} />
     </div>
   );
 }

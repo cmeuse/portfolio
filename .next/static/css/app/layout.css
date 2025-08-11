@@ -903,11 +903,20 @@ video {
 .h-20 {
   height: 5rem;
 }
+.h-24 {
+  height: 6rem;
+}
 .h-3 {
   height: 0.75rem;
 }
+.h-32 {
+  height: 8rem;
+}
 .h-4 {
   height: 1rem;
+}
+.h-40 {
+  height: 10rem;
 }
 .h-5 {
   height: 1.25rem;
@@ -927,9 +936,6 @@ video {
 .h-\[50vh\] {
   height: 50vh;
 }
-.h-\[60vh\] {
-  height: 60vh;
-}
 .h-full {
   height: 100%;
 }
@@ -938,15 +944,6 @@ video {
 }
 .h-screen {
   height: 100vh;
-}
-.h-32 {
-  height: 8rem;
-}
-.h-\[80vh\] {
-  height: 80vh;
-}
-.h-40 {
-  height: 10rem;
 }
 .max-h-96 {
   max-height: 24rem;
@@ -1527,17 +1524,25 @@ video {
   --tw-gradient-to: rgb(240 249 255 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #f0f9ff var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
+.via-slate-50\/30 {
+  --tw-gradient-to: rgb(248 250 252 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(248 250 252 / 0.3) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
 .via-slate-50\/50 {
   --tw-gradient-to: rgb(248 250 252 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(248 250 252 / 0.5) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
-.via-slate-800\/50 {
-  --tw-gradient-to: rgb(30 41 59 / 0)  var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), rgb(30 41 59 / 0.5) var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
 .via-slate-50\/80 {
   --tw-gradient-to: rgb(248 250 252 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(248 250 252 / 0.8) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+.via-slate-800\/30 {
+  --tw-gradient-to: rgb(30 41 59 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(30 41 59 / 0.3) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+.via-slate-800\/50 {
+  --tw-gradient-to: rgb(30 41 59 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(30 41 59 / 0.5) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 .via-slate-800\/80 {
   --tw-gradient-to: rgb(30 41 59 / 0)  var(--tw-gradient-to-position);

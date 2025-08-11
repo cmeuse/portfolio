@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Play, Pause, Volume2, VolumeX, Settings } from 'lucide-react';
-import { Globe } from './Globe';
+import RealisticGlobe from './Globe';
 import { useAppStore } from '@/store/useAppStore';
 import type { CitySlug } from '@/types';
 
@@ -43,16 +43,7 @@ export function GlobeSection() {
         : 'bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800'
     }`}>
       {/* Globe */}
-      <Globe
-        activeCity={activeCity}
-        dayNight={dayNight}
-        tourMode={tourMode}
-        onCityHover={(city) => {
-          // Show city info on hover
-          console.log('Hovering city:', city);
-        }}
-        onCitySelect={handleCitySelect}
-      />
+      <RealisticGlobe />
 
       {/* UI Controls */}
       <div className="absolute inset-0 pointer-events-none">
@@ -127,8 +118,15 @@ export function GlobeSection() {
                 </motion.button>
               </motion.div>
             )}
-          </AnimatePresence>
-        </div>
+                </AnimatePresence>
+      
+      {/* Top gradient overlay for smooth entry from previous section */}
+      <div className={`absolute top-0 left-0 right-0 h-24 pointer-events-none transition-colors duration-500 ${
+        dayNight === 'day'
+          ? 'bg-gradient-to-b from-slate-50 via-slate-50/30 to-transparent'
+          : 'bg-gradient-to-b from-slate-800 via-slate-800/30 to-transparent'
+      }`} />
+    </div>
 
         {/* City Info Panel */}
         <AnimatePresence>
