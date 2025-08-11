@@ -1,4 +1,4 @@
-export type CitySlug = 'new-york' | 'tokyo' | 'washington-dc' | 'los-angeles' | 'copenhagen' | 'mountain-view';
+export type CitySlug = 'new-york' | 'tokyo' | 'washington-dc' | 'los-angeles' | 'copenhagen' | 'mountain-view' | 'toronto';
 
 export type SceneType = 'welcome' | 'globe-intro' | 'route' | 'destinations';
 

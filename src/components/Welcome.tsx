@@ -126,7 +126,7 @@ export function Welcome() {
             <div className="flex justify-between items-end">
               <div>
                 <div className="text-xs opacity-80">PASSENGER</div>
-                <div className="text-sm font-mono">BUILDER OF AI + MUSIC</div>
+                <div className="text-sm font-mono">CHLOE MEUSE</div>
               </div>
               <div className="text-right">
                 <div className="text-xs opacity-80">SEAT</div>
@@ -143,7 +143,7 @@ export function Welcome() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          Building playful AI + music products that travel the world
+          Passionate about learning, relentless about building, and inspired by the world around me
         </motion.p>
 
         {/* Action Buttons */}

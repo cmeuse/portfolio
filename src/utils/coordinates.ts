@@ -66,6 +66,12 @@ export const CITIES: Record<CitySlug, CityPin> = {
     coordinates: { lat: 55.6761, lng: 12.5683 },
     position: [0, 0, 0],
   },
+  'toronto': {
+    slug: 'toronto',
+    name: 'Toronto',
+    coordinates: { lat: 43.6532, lng: -79.3832 },
+    position: [0, 0, 0],
+  },
 };
 
 // Calculate 3D positions for all cities
@@ -92,7 +98,7 @@ export function getAllCities(): CityPin[] {
  * Get the next city in the tour sequence
  */
 export function getNextCity(currentSlug: CitySlug): CitySlug | null {
-  const sequence: CitySlug[] = ['new-york', 'washington-dc', 'mountain-view', 'los-angeles', 'tokyo', 'copenhagen'];
+  const sequence: CitySlug[] = ['new-york', 'washington-dc', 'mountain-view', 'los-angeles', 'tokyo', 'copenhagen', 'toronto'];
   const currentIndex = sequence.indexOf(currentSlug);
   
   if (currentIndex === -1 || currentIndex === sequence.length - 1) {
@@ -106,7 +112,7 @@ export function getNextCity(currentSlug: CitySlug): CitySlug | null {
  * Get the previous city in the tour sequence
  */
 export function getPreviousCity(currentSlug: CitySlug): CitySlug | null {
-  const sequence: CitySlug[] = ['new-york', 'washington-dc', 'mountain-view', 'los-angeles', 'tokyo', 'copenhagen'];
+  const sequence: CitySlug[] = ['new-york', 'washington-dc', 'mountain-view', 'los-angeles', 'tokyo', 'copenhagen', 'toronto'];
   const currentIndex = sequence.indexOf(currentSlug);
   
   if (currentIndex <= 0) {

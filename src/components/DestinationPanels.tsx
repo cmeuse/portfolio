@@ -43,6 +43,13 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
         bgColor: 'bg-orange-900/40'
       },
       'copenhagen': { type: 'image', image: '/assets/cope.png', gradient: 'from-purple-500/20 to-pink-500/20', title: 'AI Art Generation Research', bgColor: 'bg-purple-900' },
+      'toronto': { 
+        type: 'image', 
+        image: '/assets/airfairness.png', 
+        gradient: 'from-blue-500/20 to-green-500/20', 
+        title: 'FlightorFight.ai Acquisition',
+        bgColor: 'bg-blue-900/40'
+      },
     };
     return visuals[slug as keyof typeof visuals] || { type: 'emoji', emoji: '🚀', gradient: 'from-primary-500/20 to-purple-500/20', title: 'Tech Innovation' };
   };
@@ -285,7 +292,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
 export function DestinationPanels() {
   // Sort destinations in the desired order
   const sortedDestinations = allDestinations.sort((a, b) => {
-    const order = ['new-york', 'washington-dc', 'mountain-view', 'los-angeles', 'tokyo', 'copenhagen'];
+    const order = ['new-york', 'washington-dc', 'mountain-view', 'los-angeles', 'tokyo', 'copenhagen', 'toronto'];
     return order.indexOf(a.slug) - order.indexOf(b.slug);
   });
 
