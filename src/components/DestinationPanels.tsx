@@ -13,13 +13,19 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
   // Get unique visual elements for each destination
   const getDestinationVisuals = (slug: string) => {
     const visuals = {
-      'new-york': { emoji: '🎵', gradient: 'from-green-500/20 to-black/20', title: 'Spotify Notebook Sharing' },
-      'washington-dc': { emoji: '🏛️', gradient: 'from-red-500/20 to-blue-500/20', title: 'Government Innovation' },
-      'los-angeles': { emoji: '🎬', gradient: 'from-yellow-500/20 to-pink-500/20', title: 'Creative Technology' },
-      'tokyo': { emoji: '🗼', gradient: 'from-pink-500/20 to-purple-500/20', title: 'AI Research Hub' },
-      'copenhagen': { emoji: '🎭', gradient: 'from-green-500/20 to-blue-500/20', title: 'Nordic Innovation' },
+      'new-york': { 
+        type: 'image', 
+        image: '/assets/spotify-logo.png', 
+        gradient: 'from-green-500/20 to-black/20', 
+        title: 'Spotify Notebook Sharing',
+        bgColor: 'bg-black/40'
+      },
+      'washington-dc': { type: 'emoji', emoji: '🏛️', gradient: 'from-red-500/20 to-blue-500/20', title: 'Government Innovation' },
+      'los-angeles': { type: 'emoji', emoji: '🎬', gradient: 'from-yellow-500/20 to-pink-500/20', title: 'Creative Technology' },
+      'tokyo': { type: 'emoji', emoji: '🗼', gradient: 'from-pink-500/20 to-purple-500/20', title: 'AI Research Hub' },
+      'copenhagen': { type: 'emoji', emoji: '🎭', gradient: 'from-green-500/20 to-blue-500/20', title: 'Nordic Innovation' },
     };
-    return visuals[slug as keyof typeof visuals] || { emoji: '🚀', gradient: 'from-primary-500/20 to-purple-500/20', title: 'Tech Innovation' };
+    return visuals[slug as keyof typeof visuals] || { type: 'emoji', emoji: '🚀', gradient: 'from-primary-500/20 to-purple-500/20', title: 'Tech Innovation' };
   };
   
   const visuals = getDestinationVisuals(destination.slug);
@@ -210,30 +216,42 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
             transition={{ delay: 0.3, duration: 0.6 }}
           >
             <div className={`aspect-video bg-gradient-to-br ${visuals.gradient} rounded-lg border border-white/10 flex items-center justify-center relative overflow-hidden group`}>
-              {/* Background Pattern */}
-              <div className="absolute inset-0 opacity-5">
-                <div className="w-full h-full" style={{
-                  backgroundImage: `radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                  backgroundSize: '20px 20px'
-                }}></div>
-              </div>
-              
-              {/* Main Content */}
-              <div className="text-center z-10">
-                <div className="w-20 h-20 bg-white/10 rounded-2xl mx-auto mb-4 flex items-center justify-center backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300">
-                  <span className="text-3xl">{visuals.emoji}</span>
-                </div>
-                <h3 className="text-white font-semibold text-lg mb-2">{visuals.title}</h3>
-                <p className="text-slate-300 text-sm px-4">Project showcase image coming soon</p>
-              </div>
+              {visuals.type === 'image' ? (
+                /* Clean Image - No Text Overlay */
+                <img 
+                  src={visuals.image} 
+                  alt={visuals.title}
+                  className="absolute inset-0 w-full h-full object-contain p-8 group-hover:scale-105 transition-transform duration-300"
+                />
+              ) : (
+                /* Emoji Layout for other destinations */
+                <>
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 opacity-5">
+                    <div className="w-full h-full" style={{
+                      backgroundImage: `radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                      backgroundSize: '20px 20px'
+                    }}></div>
+                  </div>
+                  
+                  {/* Main Content */}
+                  <div className="text-center z-10">
+                    <div className={`w-20 h-20 ${visuals.bgColor || 'bg-white/10'} rounded-2xl mx-auto mb-4 flex items-center justify-center backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300`}>
+                      <span className="text-3xl">{visuals.emoji}</span>
+                    </div>
+                    <h3 className="text-white font-semibold text-lg mb-2">{visuals.title}</h3>
+                    <p className="text-slate-300 text-sm px-4">Project showcase image coming soon</p>
+                  </div>
+                  
+                  {/* Bottom Gradient Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/20 to-transparent"></div>
+                </>
+              )}
               
               {/* Corner Badge */}
-              <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 border border-white/20">
+              <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 border border-white/20 z-30">
                 <span className="text-white text-xs font-medium">{destination.city}</span>
               </div>
-              
-              {/* Bottom Gradient Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>
           </motion.div>
         </div>
