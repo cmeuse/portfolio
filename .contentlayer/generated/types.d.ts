@@ -24,7 +24,6 @@ export type Destination = {
   metrics?: any | undefined
   stack?: string[] | undefined
   overview: string
-  impact?: string[] | undefined
   buildNotes?: string[] | undefined
   artifacts?: any | undefined
   links?: any | undefined

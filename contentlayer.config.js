@@ -50,11 +50,7 @@ export const Destination = defineDocumentType(() => ({
       type: 'string',
       required: true,
     },
-    impact: {
-      type: 'list',
-      of: { type: 'string' },
-      required: false,
-    },
+
     buildNotes: {
       type: 'list',
       of: { type: 'string' },

@@ -10,20 +10,17 @@ coordinates:
   lat: 40.7128
   lng: -74.0060
 metrics:
-  - { label: "Users", value: 2000, suffix: "+" }
+  - { label: "Internal Users", value: 2000, suffix: "+" }
   - { label: "Friction Reduction", value: 89, suffix: "%" }
-  - { label: "Timeline", value: 3, suffix: "mo" }
+  - { label: "Delivery Timeline", value: 10, suffix: "wks" }
 stack: ["React", "TypeScript", "Node.js", "Java", "Docker", "Kubernetes", "PostgreSQL"]
 overview: >
-  Architected and shipped a notebook-sharing feature to 2,000+ users, reducing workflow friction by 89% and pioneering Git-independent sharing for non-technical stakeholders.
-impact:
-  - "Reduced steps from 9 to 1 click with measurable gains"
-  - "Pioneered Git-independent sharing for non-technical stakeholders"
-  - "Implemented robust authentication and permission system"
-  - "Achieved 99.9% uptime during peak traffic periods"
+  Architected and shipped a notebook-sharing feature to 2,000+ internal users in 10 weeks, delivering 8,000+ lines of production code from RFC to launch. Reduced sharing workflow from 9 steps to 1 click (89% friction reduction), enabling cross-organization collaboration with measurable productivity gains.
+
 buildNotes:
-  - "RFC → feedback loop → launch pipeline diagram"
-  - "Microservices architecture with event-driven communication"
+  - "Built full-stack features with React, TypeScript, Node.js, and Java"
+  - "Deployed via Docker/Kubernetes infrastructure"
+  - "Implemented RFC → feedback loop → launch pipeline"
   - "Real-time collaboration using WebSocket connections"
 artifacts:
   - { title: "Demo Video", url: "https://loom.com/demo", type: "video" }
@@ -51,7 +48,7 @@ The existing workflow was cumbersome:
 8. Import into their environment
 9. Resolve environment conflicts
 
-This 9-step process was creating significant friction, especially for stakeholders who weren't engineers but needed to access and understand the data insights.
+This 9-step process was creating significant friction, especially for non-technical stakeholders who needed to access and understand the data insights but lacked Git expertise.
 
 ## The Solution
 
@@ -84,10 +81,10 @@ Built on Spotify's microservices architecture with:
 ## Impact Metrics
 
 The results exceeded expectations:
-- **2,000+ active users** within first month
+- **2,000+ internal users** adopted the feature within 10 weeks
+- **8,000+ lines of production code** delivered from RFC to launch
 - **89% reduction** in sharing friction (from 9 steps to 1 click)
-- **3x increase** in cross-team collaboration
-- **99.9% uptime** during peak traffic periods
+- **Measurable productivity gains** in cross-organization collaboration
 
 ## Key Learnings
 

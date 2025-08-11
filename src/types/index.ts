@@ -50,7 +50,6 @@ export interface DestinationContent {
   metrics?: Metric[];
   stack?: string[];
   overview: string;
-  impact?: string[];
   buildNotes?: string[];
   artifacts?: Artifact[];
   links?: Link[];

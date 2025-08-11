@@ -5,10 +5,24 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { allDestinations } from 'contentlayer/generated';
 import { useAppStore } from '@/store/useAppStore';
-import type { CitySlug, Metric, Link } from '@/types';
+import type { CitySlug, Metric, Link, Artifact } from '@/types';
 
 function DestinationPanel({ destination }: { destination: typeof allDestinations[0] }) {
   const setCity = useAppStore((state) => state.setCity);
+  
+  // Get unique visual elements for each destination
+  const getDestinationVisuals = (slug: string) => {
+    const visuals = {
+      'new-york': { emoji: '🎵', gradient: 'from-green-500/20 to-black/20', title: 'Spotify Notebook Sharing' },
+      'washington-dc': { emoji: '🏛️', gradient: 'from-red-500/20 to-blue-500/20', title: 'Government Innovation' },
+      'los-angeles': { emoji: '🎬', gradient: 'from-yellow-500/20 to-pink-500/20', title: 'Creative Technology' },
+      'tokyo': { emoji: '🗼', gradient: 'from-pink-500/20 to-purple-500/20', title: 'AI Research Hub' },
+      'copenhagen': { emoji: '🎭', gradient: 'from-green-500/20 to-blue-500/20', title: 'Nordic Innovation' },
+    };
+    return visuals[slug as keyof typeof visuals] || { emoji: '🚀', gradient: 'from-primary-500/20 to-purple-500/20', title: 'Tech Innovation' };
+  };
+  
+  const visuals = getDestinationVisuals(destination.slug);
   const { ref, inView } = useInView({
     threshold: 0.5,
     triggerOnce: false,
@@ -94,55 +108,137 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                  </div>
                )}
 
-               {/* Overview */}
-               <div className="mb-6">
-                 <p className="text-slate-300 leading-relaxed">
-                   {destination.overview}
-                 </p>
-               </div>
+                             {/* Overview */}
+              <div className="mb-6">
+                <p className="text-slate-300 leading-relaxed">
+                  {destination.overview}
+                </p>
+              </div>
 
-               {/* Call to Action */}
-               <div className="flex gap-4">
-                 <motion.button
-                   className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 focus-visible"
-                   whileHover={{ scale: 1.05 }}
-                   whileTap={{ scale: 0.95 }}
-                 >
-                   Read Full Case Study
-                 </motion.button>
-                 {destination.links && (destination.links as Link[])[0] && (
-                   <motion.a
-                     href={(destination.links as Link[])[0].url}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     className="bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 border border-white/20 hover:border-white/30 focus-visible"
-                     whileHover={{ scale: 1.05 }}
-                     whileTap={{ scale: 0.95 }}
-                   >
-                     {(destination.links as Link[])[0].label}
-                   </motion.a>
-                 )}
-               </div>
+              {/* Build Notes */}
+              {destination.buildNotes && (destination.buildNotes as string[]).length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-white mb-3">Technical Implementation</h4>
+                  <div className="space-y-2">
+                    {(destination.buildNotes as string[]).map((note, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                        <p className="text-slate-300 text-sm">{note}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Artifacts */}
+              {destination.artifacts && (destination.artifacts as Artifact[]).length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-white mb-3">Project Artifacts</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {(destination.artifacts as Artifact[]).map((artifact, index) => (
+                      <a
+                        key={index}
+                        href={artifact.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center gap-3 p-3 glass rounded-lg hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/20"
+                      >
+                        <div className="w-8 h-8 bg-primary-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          {artifact.type === 'video' && <span className="text-sm">🎥</span>}
+                          {artifact.type === 'document' && <span className="text-sm">📄</span>}
+                          {artifact.type === 'demo' && <span className="text-sm">🚀</span>}
+                          {artifact.type === 'image' && <span className="text-sm">🖼️</span>}
+                          {artifact.type === 'link' && <span className="text-sm">🔗</span>}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white font-medium text-sm group-hover:text-primary-300 transition-colors">
+                            {artifact.title}
+                          </p>
+                          {artifact.description && (
+                            <p className="text-slate-400 text-xs mt-1 truncate">
+                              {artifact.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="text-slate-400 group-hover:text-white transition-colors">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Links */}
+              {destination.links && (destination.links as Link[]).length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-lg font-semibold text-white mb-3">Project Links</h4>
+                  <div className="flex flex-wrap gap-3">
+                    {(destination.links as Link[]).map((link, index) => (
+                      <a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium transition-all duration-300 border border-white/20 hover:border-white/30 text-sm group"
+                      >
+                        {link.type === 'github' && <span className="text-sm">🔗</span>}
+                        {link.type === 'demo' && <span className="text-sm">🚀</span>}
+                        {link.type === 'press' && <span className="text-sm">📰</span>}
+                        {link.type === 'external' && <span className="text-sm">🌐</span>}
+                        <span>{link.label}</span>
+                        <svg className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              
             </motion.div>
           </div>
 
-          {/* Placeholder visual */}
+          {/* Project Image Placeholder */}
           <motion.div
             className="relative"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: inView ? 1 : 0, scale: inView ? 1 : 0.8 }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <div className="aspect-video bg-gradient-to-br from-primary-500/20 to-purple-500/20 rounded-lg border border-white/10 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-white/10 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-2xl">🚀</span>
-                </div>
-                <p className="text-slate-300">Case study coming soon</p>
+            <div className={`aspect-video bg-gradient-to-br ${visuals.gradient} rounded-lg border border-white/10 flex items-center justify-center relative overflow-hidden group`}>
+              {/* Background Pattern */}
+              <div className="absolute inset-0 opacity-5">
+                <div className="w-full h-full" style={{
+                  backgroundImage: `radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                  backgroundSize: '20px 20px'
+                }}></div>
               </div>
+              
+              {/* Main Content */}
+              <div className="text-center z-10">
+                <div className="w-20 h-20 bg-white/10 rounded-2xl mx-auto mb-4 flex items-center justify-center backdrop-blur-sm border border-white/20 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-3xl">{visuals.emoji}</span>
+                </div>
+                <h3 className="text-white font-semibold text-lg mb-2">{visuals.title}</h3>
+                <p className="text-slate-300 text-sm px-4">Project showcase image coming soon</p>
+              </div>
+              
+              {/* Corner Badge */}
+              <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1 border border-white/20">
+                <span className="text-white text-xs font-medium">{destination.city}</span>
+              </div>
+              
+              {/* Bottom Gradient Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/20 to-transparent"></div>
             </div>
           </motion.div>
         </div>
+        
+
       </div>
     </motion.div>
   );
