@@ -366,65 +366,14 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
 }
 
 export function DestinationPanels() {
-  // Helper: compute a sortable recency score from a timeframe string
-  const getRecencyScore = (timeframe: string): number => {
-    if (!timeframe) return 0;
+  // Explicit order requested by user
+  const displayOrder = ['new-york', 'tokyo', 'toronto', 'copenhagen', 'washington-dc', 'los-angeles'];
+  const indexBySlug = new Map<string, number>(displayOrder.map((slug, i) => [slug, i]));
 
-    const lower = timeframe.toLowerCase();
-    const monthMap: Record<string, number> = {
-      january: 1, jan: 1,
-      february: 2, feb: 2,
-      march: 3, mar: 3,
-      april: 4, apr: 4,
-      may: 5,
-      june: 6, jun: 6,
-      july: 7, jul: 7,
-      august: 8, aug: 8,
-      september: 9, sep: 9, sept: 9,
-      october: 10, oct: 10,
-      november: 11, nov: 11,
-      december: 12, dec: 12,
-      spring: 4,
-      summer: 7,
-      fall: 10, autumn: 10,
-      winter: 1
-    };
-
-    // Extract all year numbers
-    const years = Array.from(lower.matchAll(/(20\d{2})/g)).map(m => parseInt(m[1], 10));
-    if (years.length === 0) return 0;
-    const latestYear = Math.max(...years);
-
-    // Find a month/season token closest to the latest year occurrence
-    let monthRank = 12; // default to end of year if unspecified (treat as latest)
-
-    // Tokenize by spaces and punctuation, keep order
-    const tokens = lower.split(/[^a-z0-9]+/).filter(Boolean);
-    for (let i = 0; i < tokens.length; i++) {
-      if (tokens[i] === String(latestYear)) {
-        // Look around the year token for month/season words
-        const neighbors = [tokens[i - 2], tokens[i - 1], tokens[i + 1], tokens[i + 2]];
-        for (const t of neighbors) {
-          if (t && monthMap[t] != null) {
-            monthRank = monthMap[t];
-            break;
-          }
-        }
-        break;
-      }
-    }
-
-    // Return a composite score where higher means more recent
-    return latestYear * 100 + monthRank;
-  };
-
-  // Sort by recency descending (most recent first)
   const sortedDestinations = [...allDestinations].sort((a, b) => {
-    const scoreA = getRecencyScore(a.timeframe || '');
-    const scoreB = getRecencyScore(b.timeframe || '');
-    if (scoreA !== scoreB) return scoreB - scoreA;
-    // Stable tiebreaker by city name
-    return (a.city || '').localeCompare(b.city || '');
+    const aIdx = indexBySlug.get(a.slug) ?? Number.MAX_SAFE_INTEGER;
+    const bIdx = indexBySlug.get(b.slug) ?? Number.MAX_SAFE_INTEGER;
+    return aIdx - bIdx;
   });
 
   return (
