@@ -94,18 +94,11 @@ function SuitcaseWithTag({
 
               <div className="space-y-3 body-text leading-relaxed text-sm flex-1">
                 <p>
-                  I grew up chasing adrenaline—downhill ski racing and playing goalie in lacrosse—and 
-                  I get that same rush from shipping products that connect music and people.
-                </p>
-                <p>
-                  Studying in Copenhagen shaped my obsession with thoughtful, human-centered design. 
-                  There's something magical about how Danish design principles focus on simplicity 
-                  and functionality while never losing sight of delight.
-                </p>
-                <p>
-                  This portfolio is a tour through the places and ideas that made me who I am today. 
-                  Each city represents not just a location, but a chapter in my journey toward building 
-                  technology that brings people together through the universal language of music.
+                Fueled by curiosity, adrenaline, and a love for exploration, I approach both travel and technology as journeys of discovery. 
+                Whether hiking remote trails or building innovative AI-driven applications, I thrive in navigating new challenges and learning quickly along the way. 
+                As an AI-native software engineer and product thinker, I combine technical expertise with a global perspective, crafting solutions
+                 that are as adaptive and forward-thinking as the world we live in. My journey across cities, 
+                 cultures, and creative ideas has shaped how I build technology: with curiosity, speed, and a focus on bringing people together.
                 </p>
               </div>
             </div>
