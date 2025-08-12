@@ -1,9 +1,4 @@
 {
   "/not-found": "app/not-found.js",
-  "/page": "app/page.js",
-  "/_not-found": "app/_not-found.js",
-  "/api/normalize/route": "app/api/normalize/route.js",
-  "/api/previewPlaylist/route": "app/api/previewPlaylist/route.js",
-  "/api/ocr/route": "app/api/ocr/route.js",
-  "/demo/copenhagen/page": "app/demo/copenhagen/page.js"
+  "/page": "app/page.js"
 }

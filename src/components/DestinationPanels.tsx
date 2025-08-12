@@ -85,7 +85,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Content */}
-           <div className="lg:hidden">
+          <div>
                          <motion.h2
                className={`text-5xl font-display mb-6 transition-colors duration-500 ${
                  dayNight === 'day' ? 'text-slate-900/95' : 'text-slate-100'
@@ -126,7 +126,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
               transition={{ delay: 0.6, duration: 0.6 }}
             >
                              {/* Metrics */}
-                {destination.metrics && (
+               {destination.metrics && (
                  <div className="grid grid-cols-3 gap-4 mb-6">
                    {(destination.metrics as Metric[]).map((metric, index) => (
                      <div key={index} className={`text-center p-4 rounded-lg transition-colors duration-500 ${
@@ -147,7 +147,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                  </div>
                )}
 
-                {/* Tech Stack */}
+               {/* Tech Stack */}
                {destination.stack && (
                  <div className="mb-6">
                    <h4 className={`text-lg mb-3 transition-colors duration-500 ${
@@ -166,8 +166,6 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                    </div>
                  </div>
                )}
-
-              {/* Overview moved under photo on desktop */}
 
               {/* Build Notes */}
               {destination.buildNotes && (destination.buildNotes as string[]).length > 0 && (
@@ -282,7 +280,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
             </motion.div>
           </div>
 
-           {/* Project Image Placeholder with description below for desktop */}
+          {/* Project Image Placeholder */}
           <motion.div
             className="relative"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -337,8 +335,11 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
                 }`}>{destination.city}</span>
               </div>
             </div>
-              {/* Overview under image on large screens */}
-              <div className="hidden lg:block mt-6">
+            {/* Overview */}
+            <div className="mb-6 mt-6">
+              <h4 className={`text-lg mb-1 transition-colors duration-500 ${
+                      dayNight === 'day' ? 'text-slate-900/90' : 'text-slate-200'
+                    }`}>Description</h4>
                 <p className={`leading-relaxed transition-colors duration-500 ${
                   dayNight === 'day' ? 'text-slate-700' : 'text-slate-300'
                 }`}>
@@ -347,6 +348,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
               </div>
           </motion.div>
         </div>
+        
       </div>
       
       {/* Gradient continuation overlay - extends the gradient beyond the section */}

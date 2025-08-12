@@ -17,10 +17,10 @@ export function TransitionParallax() {
   const yPath = useTransform(scrollYProgress, [0, 1], ['0%', '-40%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.3]);
   
-  // Plane position - keep centered on the path line (y=150 in viewBox), at mid X
-  const planeX = useTransform(scrollYProgress, [0, 1], [800, 800]);
+  // Plane position - travel across the path while staying locked to the line at y=150
+  const planeX = useTransform(scrollYProgress, [0, 1], [-200, 1800]);
   const planeY = useTransform(scrollYProgress, [0, 1], [150, 150]);
-  const planeRotation = useTransform(scrollYProgress, [0, 1], [0, 0]);
+  const planeRotation = useTransform(scrollYProgress, [0, 0.5, 1], [-4, 0, 4]);
   const pathProgress = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
   const trailProgress = useTransform(scrollYProgress, [0.1, 0.7], [0, 1]);
   const exhaustOpacity = useTransform(scrollYProgress, [0.1, 0.9], [0, 0.8]);
