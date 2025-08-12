@@ -73,7 +73,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
     <motion.div
       id={`destination-${destination.slug}`}
       ref={ref}
-      className={`relative min-h-screen flex items-center justify-center scroll-snap-start transition-colors duration-500 ${
+      className={`relative min-h-[110vh] flex items-center justify-center scroll-snap-start transition-colors duration-500 ${
         dayNight === 'day' 
           ? 'bg-gradient-to-b from-slate-50 via-sky-50 to-slate-50'
           : 'bg-gradient-to-b from-slate-900 via-blue-900 to-slate-800'
