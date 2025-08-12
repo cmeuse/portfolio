@@ -367,7 +367,7 @@ function DestinationPanel({ destination }: { destination: typeof allDestinations
 
 export function DestinationPanels() {
   // Explicit order requested by user
-  const displayOrder = ['new-york', 'tokyo', 'toronto', 'copenhagen', 'washington-dc', 'los-angeles'];
+  const displayOrder = ['new-york', 'tokyo', 'toronto', 'copenhagen', 'washington-dc', 'mountain-view', 'los-angeles'];
   const indexBySlug = new Map<string, number>(displayOrder.map((slug, i) => [slug, i]));
 
   const sortedDestinations = [...allDestinations].sort((a, b) => {

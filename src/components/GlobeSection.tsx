@@ -307,7 +307,7 @@ export function GlobeSection() {
         {/* Progress Indicators */}
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 pointer-events-auto">
           <div className="flex items-center space-x-3">
-            {['new-york', 'washington-dc', 'los-angeles', 'tokyo', 'copenhagen'].map((citySlug, index) => (
+            {['new-york', 'tokyo', 'toronto', 'copenhagen', 'washington-dc', 'mountain-view', 'los-angeles'].map((citySlug, index) => (
               <motion.button
                 key={citySlug}
                 onClick={() => handleCitySelect(citySlug as CitySlug)}
