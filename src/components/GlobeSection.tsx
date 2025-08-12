@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Play, Pause, Volume2, VolumeX, Settings } from 'lucide-react';
 import RealisticGlobe from './Globe';
@@ -22,24 +22,6 @@ export function GlobeSection() {
   } = useAppStore();
 
   const [showControls, setShowControls] = useState(false);
-  const [showHint, setShowHint] = useState(true);
-
-  // Hide the hint after the first interaction or once a city becomes active
-  useEffect(() => {
-    if (activeCity || globeSelectedCity) {
-      setShowHint(false);
-      return;
-    }
-
-    const hideOnInteract = () => setShowHint(false);
-    window.addEventListener('pointerdown', hideOnInteract, { once: true });
-    const timeoutId = window.setTimeout(() => setShowHint(false), 6000);
-
-    return () => {
-      window.removeEventListener('pointerdown', hideOnInteract);
-      window.clearTimeout(timeoutId);
-    };
-  }, [activeCity, globeSelectedCity]);
 
   // Get destination data and visuals for city preview
   const getDestinationData = (slug: string) => {
@@ -110,26 +92,6 @@ export function GlobeSection() {
 
       {/* UI Controls */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Center Hint */}
-        {showHint && !activeCity && !globeSelectedCity && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.6 }}
-            className="absolute inset-0 flex items-center justify-center"
-          >
-            <div
-              className={`px-4 py-2 rounded-full text-sm font-medium backdrop-blur-md shadow-lg pointer-events-none ${
-                dayNight === 'day'
-                  ? 'bg-slate-900/60 text-white'
-                  : 'bg-white/15 text-white'
-              }`}
-            >
-              Click an emoji on the map to get started
-            </div>
-          </motion.div>
-        )}
         {/* Top Controls */}
         <div className="absolute top-6 right-6 flex items-center space-x-4 pointer-events-auto">
           {/* Settings Toggle */}
@@ -279,6 +241,63 @@ export function GlobeSection() {
                   >
                     View Details
                   </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Placeholder Panel when nothing is selected */}
+        <AnimatePresence>
+          {!globeSelectedCity && (
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              className="absolute left-6 top-1/2 transform -translate-y-1/2 pointer-events-none"
+            >
+              <div
+                className={`rounded-2xl overflow-hidden max-w-sm shadow-2xl transition-all duration-500 ${
+                  dayNight === 'day'
+                    ? 'bg-white/90 backdrop-blur-md border border-slate-200'
+                    : 'bg-slate-800/90 backdrop-blur-md border border-slate-700'
+                }`}
+              >
+                {/* Simple visual header */}
+                <div className="relative h-40 overflow-hidden flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${
+                      dayNight === 'day'
+                        ? 'from-slate-100 via-slate-50 to-white'
+                        : 'from-slate-800 via-slate-700 to-slate-900'
+                    }`}
+                  />
+                  <div className="relative z-10 text-5xl select-none">🗺️</div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
+                </div>
+
+                <div className="p-6">
+                  <h3
+                    className={`text-xl font-display mb-2 transition-colors duration-500 ${
+                      dayNight === 'day' ? 'text-slate-900' : 'text-white'
+                    }`}
+                  >
+                    Click an emoji pin to get started
+                  </h3>
+                  <p
+                    className={`text-sm mb-1 transition-colors duration-500 ${
+                      dayNight === 'day' ? 'text-slate-600' : 'text-slate-300'
+                    }`}
+                  >
+                    Hover or click any emoji on the globe to preview a destination.
+                  </p>
+                  <p
+                    className={`text-xs transition-colors duration-500 ${
+                      dayNight === 'day' ? 'text-slate-500' : 'text-slate-400'
+                    }`}
+                  >
+                    Tip: Drag to rotate the globe.
+                  </p>
                 </div>
               </div>
             </motion.div>
