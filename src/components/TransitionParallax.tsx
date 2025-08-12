@@ -17,10 +17,10 @@ export function TransitionParallax() {
   const yPath = useTransform(scrollYProgress, [0, 1], ['0%', '-40%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0.3]);
   
-  // Plane animation based on scroll
-  const planeX = useTransform(scrollYProgress, [0, 1], [-100, 1700]);
-  const planeY = useTransform(scrollYProgress, [0, 0.5, 1], [150, 120, 150]);
-  const planeRotation = useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [0, -8, 0, 8, 0]);
+  // Plane position - keep centered on the path line (y=150 in viewBox), at mid X
+  const planeX = useTransform(scrollYProgress, [0, 1], [800, 800]);
+  const planeY = useTransform(scrollYProgress, [0, 1], [150, 150]);
+  const planeRotation = useTransform(scrollYProgress, [0, 1], [0, 0]);
   const pathProgress = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
   const trailProgress = useTransform(scrollYProgress, [0.1, 0.7], [0, 1]);
   const exhaustOpacity = useTransform(scrollYProgress, [0.1, 0.9], [0, 0.8]);
@@ -111,8 +111,8 @@ export function TransitionParallax() {
             {/* Use plane PNG asset */}
             <image
               href="/assets/plane.png"
-              x="-200"
-              y="-140"
+              x="-140"
+              y="-70"
               width="280"
               height="140"
               preserveAspectRatio="xMidYMid meet"
