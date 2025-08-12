@@ -61,6 +61,25 @@ export function TransitionParallax() {
           viewBox="0 0 1600 300"
           fill="none"
         >
+          {/* Visual defs for gradients and shadow */}
+          <defs>
+            <linearGradient id="fuselageGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor={dayNight === 'day' ? '#e5e7eb' : '#9ca3af'} />
+              <stop offset="55%" stopColor={dayNight === 'day' ? '#c7d2fe' : '#6b7280'} />
+              <stop offset="100%" stopColor={dayNight === 'day' ? '#93c5fd' : '#475569'} />
+            </linearGradient>
+            <linearGradient id="wingGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={dayNight === 'day' ? '#93c5fd' : '#64748b'} />
+              <stop offset="100%" stopColor={dayNight === 'day' ? '#3b82f6' : '#334155'} />
+            </linearGradient>
+            <radialGradient id="windowGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#bfdbfe" stopOpacity="0.6" />
+            </radialGradient>
+            <filter id="planeShadow" x="-50%" y="-50%" width="200%" height="200%">
+              <feDropShadow dx="0" dy="2" stdDeviation="1.5" floodColor="#000" floodOpacity="0.25" />
+            </filter>
+          </defs>
           {/* Main flight path */}
           <motion.path
             d="M0,150 Q200,120 400,150 T800,150 T1600,150"
@@ -89,38 +108,69 @@ export function TransitionParallax() {
               rotate: planeRotation
             }}
           >
-            {/* Exhaust particles */}
+            {/* Exhaust plume */}
             <g transform="translate(-80,-40) scale(10)">
-              <motion.circle
-                cx="-6" cy="4" r="0.8"
+              <motion.ellipse
+                cx="-7" cy="4" rx="2.2" ry="0.9"
                 fill="#60a5fa"
                 style={{ opacity: exhaustOpacity }}
+                filter="url(#planeShadow)"
               />
-              <motion.circle
-                cx="-4" cy="3.5" r="0.6"
-                fill="#93c5fd"
-                style={{ opacity: exhaustOpacity }}
-              />
-              <motion.circle
-                cx="-4" cy="4.5" r="0.6"
+              <motion.ellipse
+                cx="-5.5" cy="4" rx="1.6" ry="0.7"
                 fill="#93c5fd"
                 style={{ opacity: exhaustOpacity }}
               />
             </g>
-            
-            {/* Airplane SVG */}
-            <g transform="translate(-80,-40) scale(10)">
-              {/* Fuselage */}
-              <ellipse cx="6" cy="4" rx="8" ry="2" fill="#1e40af" />
-              {/* Wings */}
-              <ellipse cx="4" cy="4" rx="3" ry="6" fill="#3b82f6" />
-              {/* Tail */}
-              <path d="M-2,4 L-4,2 L-4,6 Z" fill="#1e40af" />
-              {/* Engine highlights */}
-              <circle cx="2" cy="4" r="1" fill="#60a5fa" />
-              <circle cx="10" cy="4" r="0.5" fill="#93c5fd" />
+
+            {/* Detailed airplane (top-down) */}
+            <g transform="translate(-80,-40) scale(10)" filter="url(#planeShadow)">
+              {/* Fuselage (rounded with nose and tail) */}
+              <path
+                d="M-6,4 C-5,2 -3,1 1,1 C6,1 9,2 11,4 C9,6 6,7 1,7 C-3,7 -5,6 -6,4 Z"
+                fill="url(#fuselageGrad)"
+                stroke={dayNight === 'day' ? '#1f2937' : '#0f172a'}
+                strokeOpacity="0.25"
+                strokeWidth="0.2"
+              />
               {/* Cockpit window */}
-              <ellipse cx="8" cy="4" rx="2" ry="1" fill="#bfdbfe" opacity="0.7" />
+              <ellipse cx="8.6" cy="4" rx="1.2" ry="0.7" fill="url(#windowGrad)" />
+              {/* Main wings */}
+              <path
+                d="M0.5,4 L-8,-1 L-8,1 L0.5,5 Z"
+                fill="url(#wingGrad)"
+                stroke={dayNight === 'day' ? '#1f2937' : '#0f172a'}
+                strokeOpacity="0.25"
+                strokeWidth="0.2"
+              />
+              <path
+                d="M0.5,4 L-8,9 L-8,7 L0.5,3 Z"
+                fill="url(#wingGrad)"
+                stroke={dayNight === 'day' ? '#1f2937' : '#0f172a'}
+                strokeOpacity="0.25"
+                strokeWidth="0.2"
+              />
+              {/* Horizontal stabilizers */}
+              <path d="M-4,4 L-6,2.8 L-6,3.4 L-4,4.6 Z" fill={dayNight === 'day' ? '#93c5fd' : '#64748b'} />
+              <path d="M-4,4 L-6,5.2 L-6,4.6 L-4,3.4 Z" fill={dayNight === 'day' ? '#93c5fd' : '#64748b'} />
+              {/* Vertical stabilizer */}
+              <path d="M-6.4,3.2 L-7.6,4 L-6.4,4.8 Z" fill={dayNight === 'day' ? '#64748b' : '#475569'} />
+              {/* Engines */}
+              <ellipse cx="-1.8" cy="2.8" rx="0.8" ry="0.5" fill={dayNight === 'day' ? '#334155' : '#1e293b'} />
+              <ellipse cx="-1.8" cy="5.2" rx="0.8" ry="0.5" fill={dayNight === 'day' ? '#334155' : '#1e293b'} />
+              {/* Wingtip nav lights */}
+              <motion.circle
+                cx="-8" cy="-1" r="0.35"
+                fill="#22c55e"
+                animate={{ opacity: [0.2, 1, 0.2] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+              />
+              <motion.circle
+                cx="-8" cy="9" r="0.35"
+                fill="#ef4444"
+                animate={{ opacity: [1, 0.2, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+              />
             </g>
           </motion.g>
         </svg>
