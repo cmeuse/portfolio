@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Play, Pause, Volume2, VolumeX, Settings } from 'lucide-react';
 import RealisticGlobe from './Globe';
@@ -22,6 +22,24 @@ export function GlobeSection() {
   } = useAppStore();
 
   const [showControls, setShowControls] = useState(false);
+  const [showHint, setShowHint] = useState(true);
+
+  // Hide the hint after the first interaction or once a city becomes active
+  useEffect(() => {
+    if (activeCity || globeSelectedCity) {
+      setShowHint(false);
+      return;
+    }
+
+    const hideOnInteract = () => setShowHint(false);
+    window.addEventListener('pointerdown', hideOnInteract, { once: true });
+    const timeoutId = window.setTimeout(() => setShowHint(false), 6000);
+
+    return () => {
+      window.removeEventListener('pointerdown', hideOnInteract);
+      window.clearTimeout(timeoutId);
+    };
+  }, [activeCity, globeSelectedCity]);
 
   // Get destination data and visuals for city preview
   const getDestinationData = (slug: string) => {
@@ -92,6 +110,26 @@ export function GlobeSection() {
 
       {/* UI Controls */}
       <div className="absolute inset-0 pointer-events-none">
+        {/* Center Hint */}
+        {showHint && !activeCity && !globeSelectedCity && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            className="absolute inset-0 flex items-center justify-center"
+          >
+            <div
+              className={`px-4 py-2 rounded-full text-sm font-medium backdrop-blur-md shadow-lg pointer-events-none ${
+                dayNight === 'day'
+                  ? 'bg-slate-900/60 text-white'
+                  : 'bg-white/15 text-white'
+              }`}
+            >
+              Click an emoji on the map to get started
+            </div>
+          </motion.div>
+        )}
         {/* Top Controls */}
         <div className="absolute top-6 right-6 flex items-center space-x-4 pointer-events-auto">
           {/* Settings Toggle */}
