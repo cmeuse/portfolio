@@ -2,7 +2,6 @@
 
 import { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 import { CITIES, GLOBE_RADIUS } from '@/utils/coordinates';
 import type { CitySlug } from '@/types';
@@ -83,24 +82,26 @@ function MiniGlobeScene({
   return (
     <>
       {/* Mini Globe */}
-      <Sphere ref={globeRef} args={[GLOBE_RADIUS * 0.7, 32, 32]}>
+      <mesh ref={globeRef}>
+        <sphereGeometry args={[GLOBE_RADIUS * 0.7, 32, 32]} />
         <meshBasicMaterial 
           color="#1e293b" 
           transparent 
           opacity={0.8}
           wireframe={false}
         />
-      </Sphere>
+      </mesh>
 
       {/* Wireframe overlay */}
-      <Sphere args={[GLOBE_RADIUS * 0.71, 16, 16]}>
+      <mesh>
+        <sphereGeometry args={[GLOBE_RADIUS * 0.71, 16, 16]} />
         <meshBasicMaterial 
           color="#475569" 
           transparent 
           opacity={0.3}
           wireframe={true}
         />
-      </Sphere>
+      </mesh>
 
       {/* City Pins */}
       {Object.values(CITIES).map((city) => {
