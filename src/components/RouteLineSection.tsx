@@ -94,11 +94,12 @@ function SuitcaseWithTag({
 
               <div className="space-y-3 body-text leading-relaxed text-sm flex-1">
                 <p>
-                Fueled by curiosity, adrenaline, and a love for exploration, I approach both travel and technology as journeys of discovery. 
-                Whether hiking remote trails or building innovative AI-driven applications, I thrive in navigating new challenges and learning quickly along the way. 
-                As an AI-native software engineer and product thinker, I combine technical expertise with a global perspective, crafting solutions
-                 that are as adaptive and forward-thinking as the world we live in. My journey across cities, 
-                 cultures, and creative ideas has shaped how I build technology: with curiosity, speed, and a focus on bringing people together.
+                I treat the world like my playground—one day trekking mountain trails, 
+                the next engineering AI-powered tools that break new ground. Curiosity 
+                is my compass and creativity my fuel, driving me to tackle big problems, 
+                move fast, and turn bold ideas into reality. I thrive where innovation 
+                meets impact, navigating uncharted territory in tech with the same energy 
+                I bring to exploring the world.
                 </p>
               </div>
             </div>

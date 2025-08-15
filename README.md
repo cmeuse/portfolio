@@ -53,6 +53,38 @@ npm run dev
 
 Visit `http://localhost:3000` to see the portfolio in action.
 
+## 🧰 Troubleshooting (dev cache, chunk errors)
+
+### Why you might see ChunkLoadError, hydration errors, or missing middleware-manifest
+- **Stale client bundle after layout changes**: Moving components in `src/app/layout.tsx` changes the layout chunk. Browsers may keep an old chunk cached and request an outdated URL.
+- **Multiple dev servers/ports**: If dev bounces between 3000/3001/3002, the browser might request chunks from a different port than the server currently uses.
+- **Deleting `.next` while dev is running**: Clearing build output during compilation can leave Next in a partial state (e.g., missing `middleware-manifest.json`).
+- **Node version mismatch**: Switching Node versions invalidates compiled artifacts and caches, increasing inconsistency.
+
+### Prevent it
+- **Pin Node and always use it**: Use Node 20 (e.g., via nvm). Create `.nvmrc` with `20` and run `nvm use` before dev.
+- **Run a single dev server on port 3000**: Avoid multiple terminals/ports. If 3000 is busy, kill the old process rather than auto-switching ports.
+- **Don’t delete `.next` while dev is running**: Stop dev first, then clear caches, then start dev again.
+- **Force-refresh after layout changes**: Hard refresh (Cmd-Shift-R) or open a new private window.
+
+### Clean restart sequence
+Run this if anything gets weird:
+
+```bash
+# Stop all Next devs and free ports
+pkill -f "next dev" || true; lsof -ti:3000,3001,3002 | xargs -I {} kill -9 {} || true
+
+# Clean caches (with dev stopped)
+rm -rf .next .contentlayer .turbo node_modules/.cache
+
+# Ensure Node 20
+nvm use 20
+
+# Fresh install and start on port 3000
+npm ci
+npm run dev
+```
+
 ## 🗺️ Portfolio Structure
 
 ### Welcome Section

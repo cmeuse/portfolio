@@ -120,9 +120,4 @@ export interface DestinationPanelProps {
   onNext?: () => void;
 }
 
-export interface MiniPlayerProps {
-  playlistId?: string;
-  previewTracks?: SpotifyTrack[];
-  isMuted: boolean;
-  onToggleMute: () => void;
-}
+// (removed) MiniPlayerProps - mini player feature removed

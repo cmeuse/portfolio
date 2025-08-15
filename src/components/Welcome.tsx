@@ -194,7 +194,7 @@ export function Welcome() {
           </button>
 
           <button
-            onClick={() => window.open('/resume.pdf', '_blank')}
+            onClick={() => window.open('/assets/CMeuse_Resume.pdf', '_blank')}
             className="group flex items-center space-x-2 card-surface text-slate-800 hover:bg-slate-100 px-6 py-4 rounded-full font-medium transition-all duration-300 focus-visible"
           >
             <FileDown className="w-5 h-5" />

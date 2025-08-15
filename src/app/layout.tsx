@@ -70,11 +70,13 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
       </head>
-      <RootLayoutClient>
-        {children}
-        <GlobeDock />
-        {process.env.NEXT_PUBLIC_ANALYTICS === 'vercel' && <Analytics />}
-      </RootLayoutClient>
+      <body className="font-sans overflow-x-hidden transition-colors duration-500">
+        <RootLayoutClient>
+          {children}
+          <GlobeDock />
+          {process.env.NEXT_PUBLIC_ANALYTICS === 'vercel' && <Analytics />}
+        </RootLayoutClient>
+      </body>
     </html>
   );
 }
