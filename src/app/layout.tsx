@@ -4,6 +4,7 @@ import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import GlobeDock from '@/components/GlobeDock';
 import RootLayoutClient from './RootLayoutClient';
+import { MiniPlayer } from '@/components/MiniPlayer';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -73,6 +74,7 @@ export default function RootLayout({
       <RootLayoutClient>
         {children}
         <GlobeDock />
+        <MiniPlayer />
         {process.env.NEXT_PUBLIC_ANALYTICS === 'vercel' && <Analytics />}
       </RootLayoutClient>
     </html>

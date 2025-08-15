@@ -8,7 +8,6 @@ import RouteLineSection from '@/components/RouteLineSection';
 import { GlobeSection } from '@/components/GlobeSection';
 import { TransitionParallax } from '@/components/TransitionParallax';
 import { DestinationPanels } from '@/components/DestinationPanels';
-import { MiniPlayer } from '@/components/MiniPlayer';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 
 export default function HomePage() {
@@ -66,10 +65,7 @@ export default function HomePage() {
         <DestinationPanels />
       </section>
 
-      {/* Global Mini Player */}
-      <Suspense fallback={null}>
-        <MiniPlayer />
-      </Suspense>
+      {/* Global Mini Player now mounted in RootLayout */}
     </main>
   );
 }

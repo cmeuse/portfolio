@@ -29,6 +29,7 @@ function MiniGlobeFlat({
     'los-angeles': { x: 12, y: 40 },
     'tokyo': { x: 50, y: 30 },
     'copenhagen': { x: 32, y: 20 },
+    'toronto': { x: 21, y: 29 },
   };
 
   return (
@@ -158,13 +159,15 @@ export default function GlobeDock() {
     };
   };
 
+  // Match the order used in DestinationPanels
   const cityList = [
     { slug: 'new-york' as CitySlug, name: 'New York', flag: '🇺🇸' },
+    { slug: 'tokyo' as CitySlug, name: 'Tokyo', flag: '🇯🇵' },
+    { slug: 'toronto' as CitySlug, name: 'Toronto', flag: '🇨🇦' },
+    { slug: 'copenhagen' as CitySlug, name: 'Copenhagen', flag: '🇩🇰' },
     { slug: 'washington-dc' as CitySlug, name: 'Washington DC', flag: '🇺🇸' },
     { slug: 'mountain-view' as CitySlug, name: 'Mountain View', flag: '🇺🇸' },
     { slug: 'los-angeles' as CitySlug, name: 'Los Angeles', flag: '🇺🇸' },
-    { slug: 'tokyo' as CitySlug, name: 'Tokyo', flag: '🇯🇵' },
-    { slug: 'copenhagen' as CitySlug, name: 'Copenhagen', flag: '🇩🇰' },
   ];
 
   const currentCityName = activeCity ? CITIES[activeCity]?.name : null;

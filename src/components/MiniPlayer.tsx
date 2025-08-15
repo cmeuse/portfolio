@@ -4,17 +4,15 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, SkipForward, Volume2, VolumeX } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
+import { GLOBAL_PLAYLIST_NAME, GLOBAL_PLAYLIST_URL } from '@/utils/playlist';
 
 export function MiniPlayer() {
-  const { activeCity, audioEnabled, dayNight, setAudioEnabled } = useAppStore();
+  const { audioEnabled, dayNight, setAudioEnabled } = useAppStore();
   const [isPlaying, setIsPlaying] = useState(false);
-  
-  // Only show mini player when there's an active city
-  if (!activeCity) return null;
 
   const currentTrack = {
-    title: `${activeCity.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} Vibes`,
-    artist: 'Curated Playlist',
+    title: GLOBAL_PLAYLIST_NAME,
+    artist: 'Spotify',
     image: '/placeholder-album.jpg'
   };
 
@@ -71,18 +69,19 @@ export function MiniPlayer() {
                 )}
               </motion.button>
 
-              <motion.button
+              <a
+                href={GLOBAL_PLAYLIST_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`p-2 transition-colors duration-300 ${
                   dayNight === 'day' 
                     ? 'text-slate-900/90 hover:text-primary-600' 
                     : 'text-slate-200 hover:text-primary-400'
                 }`}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                disabled={!audioEnabled}
+                aria-label="Open playlist on Spotify"
               >
                 <SkipForward className="w-4 h-4" />
-              </motion.button>
+              </a>
 
               <motion.button
                 onClick={() => setAudioEnabled(!audioEnabled)}
