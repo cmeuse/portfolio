@@ -228,7 +228,6 @@ export default function RouteLineSection() {
             email="chloemeuse@gmail.com"
             phone="(415) 999-5301"
             location="San Francisco, CA"
-            website="https://chloemeuse.dev"
             linkedin="https://linkedin.com/in/chloemeuse"
             github="https://github.com/cmeuse"
           />
