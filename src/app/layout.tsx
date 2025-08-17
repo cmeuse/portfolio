@@ -24,13 +24,13 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Portfolio | Building playful AI + music products that travel the world',
-  description: 'A music and travel-themed portfolio showcasing AI + music products across global destinations.',
-  keywords: ['portfolio', 'AI', 'music', 'travel', 'software engineer', 'Spotify', 'machine learning'],
+  title: 'Chloe Meuse Portfolio',
+  description: 'A travel-themed portfolio showcasing products across global destinations.',
+  keywords: ['portfolio', 'AI', 'travel', 'software engineer',],
   authors: [{ name: 'Portfolio' }],
   openGraph: {
-    title: 'Portfolio | AI + Music Products',
-    description: 'Building playful AI + music products that travel the world',
+    title: 'Portfolio',
+    description: '',
     url: siteUrl,
     siteName: 'Portfolio',
     images: [
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Portfolio | AI + Music Products',
-    description: 'Building playful AI + music products that travel the world',
+    title: 'Portfolio',
+    description: 'Building playful products that travel the world',
     images: ['/og-image.jpg'],
   },
 
